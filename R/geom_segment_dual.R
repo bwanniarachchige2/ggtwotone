@@ -2,10 +2,16 @@
 two_colour_segment_grob <- function(x0, y0, x1, y1, col1, col2, lwd, lineend, arrow, arrow.fill) {
   # consider current view port size for the initial creation
   # very differently shaped view ports are going to show subtle differences
-  dx <-  grid::convertWidth(unit(x1 - x0, "npc"), "pt", valueOnly = TRUE)
-  dy <- grid::convertHeight(unit((y1 - y0) , "npc"), "pt", valueOnly = TRUE)
+  dx <-  grid::convertWidth(grid::unit(x1 - x0, "npc"), "pt", valueOnly = TRUE)
+  dy <- grid::convertHeight(grid::unit((y1 - y0) , "npc"), "pt", valueOnly = TRUE)
 
   len <- sqrt(dx^2 + dy^2)
+
+  # FIX: guard zero-length to avoid NaN in perpendicular
+  if (!is.finite(len) || len == 0) {
+    return(grid::gTree(children = grid::gList()))
+  }
+
   perp_x <- -dy / len   # in data scale
   perp_y <- dx / len
 
@@ -16,19 +22,21 @@ two_colour_segment_grob <- function(x0, y0, x1, y1, col1, col2, lwd, lineend, ar
 
 
   right_line <- segmentsGrob(
-    x0 = unit(x0, "npc") - unit(offset_x, "pt"),
-    y0 = unit(y0, "npc") - unit(offset_y, "pt"),
-    x1 = unit(x1, "npc") - unit(offset_x, "pt"),
-    y1 = unit(y1, "npc") - unit(offset_y, "pt"),
-    gp = gpar(col = col1, lwd = lwd / 2, lineend = lineend, fill = arrow.fill %||% col1),
+    x0 = grid::unit(x0, "npc") - unit(offset_x, "pt"),
+    y0 = grid::unit(y0, "npc") - unit(offset_y, "pt"),
+    x1 = grid::unit(x1, "npc") - unit(offset_x, "pt"),
+    y1 = grid::unit(y1, "npc") - unit(offset_y, "pt"),
+    gp = gpar(col = col1, lwd = lwd / 2, lineend = lineend,
+              fill = if (is.null(arrow.fill)) col1 else arrow.fill),
     arrow = arrow
   )
   left_line <- segmentsGrob(
-    x0 = unit(x0, "npc") + unit(offset_x, "pt"),
-    y0 = unit(y0, "npc") + unit(offset_y, "pt"),
-    x1 = unit(x1, "npc") + unit(offset_x, "pt"),
-    y1 = unit(y1, "npc") + unit(offset_y, "pt"),
-    gp = gpar(col = col2, lwd = lwd / 2, lineend = lineend, fill = arrow.fill %||% col2),
+    x0 = grid::unit(x0, "npc") + unit(offset_x, "pt"),
+    y0 = grid::unit(y0, "npc") + unit(offset_y, "pt"),
+    x1 = grid::unit(x1, "npc") + unit(offset_x, "pt"),
+    y1 = grid::unit(y1, "npc") + unit(offset_y, "pt"),
+    gp = gpar(col = col2, lwd = lwd / 2, lineend = lineend,
+              fill = if (is.null(arrow.fill)) col2 else arrow.fill),
     arrow = arrow
   )
   grid::gTree(children = grid::gList(right_line, left_line))
@@ -58,13 +66,13 @@ GeomSegmentDual <- ggplot2::ggproto(
     grobs <- lapply(seq_len(nrow(coords)), function(i) {
       row <- coords[i, , drop = FALSE]
       # Convert linewidth to lwd (pt) for grid
-      lwd <- row$linewidth * .pt
+      lwd <- row$linewidth * ggplot2::.pt
 
       two_colour_segment_grob(
         x0 = row$x, y0 = row$y,
         x1 = row$xend, y1 = row$yend,
-        col1 = alpha(row$colour1, row$alpha),
-        col2 = alpha(row$colour2, row$alpha),
+        col1 = scales::alpha(row$colour1, row$alpha),
+        col2 = scales::alpha(row$colour2, row$alpha),
         lwd = lwd,
         lineend = lineend,
         arrow = arrow,
