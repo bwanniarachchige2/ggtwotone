@@ -34,7 +34,7 @@ geom_lm_dual(
 
 \item{...}{Additional parameters passed to \code{geom_segment_dual()}.}
 
-\item{linewidth}{Width of the line stroke (top stroke). Bottom stroke is drawn slightly thicker.}
+\item{linewidth}{Total visual line thickness in mm (both side strokes together).}
 
 \item{show.legend}{Whether to show legend.}
 }

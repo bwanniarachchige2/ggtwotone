@@ -9,7 +9,7 @@
 #' @param base_color Base color to derive the dual-tone pair from.
 #' @param contrast Minimum contrast ratio to aim for (default is 4.5).
 #' @param method_contrast Contrast algorithm to use ("WCAG", "APCA", or "auto").
-#' @param linewidth Width of the line stroke (top stroke). Bottom stroke is drawn slightly thicker.
+#' @param linewidth Total visual line thickness in mm (both side strokes together).
 #' @param show.legend Whether to show legend.
 #' @param ... Additional parameters passed to `geom_segment_dual()`.
 #'
@@ -89,7 +89,7 @@ geom_lm_dual <- function(data, mapping, method = "lm", formula = y ~ x,
 
   geom_segment_dual(
     data = reg_segment,
-    mapping = aes(x = x, y = y, xend = xend, yend = yend),
+    mapping = ggplot2::aes(x = x, y = y, xend = xend, yend = yend),
     colour1 = cp$light,
     colour2 = cp$dark,
     linewidth = linewidth,
