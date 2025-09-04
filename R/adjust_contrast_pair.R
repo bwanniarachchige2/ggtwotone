@@ -63,9 +63,11 @@ adjust_contrast_pair <- function(color, contrast = 4.5, method = "auto",
     return(list(light = "#FFFFFF", dark = "#000000", contrast = NA, method = method))
   }
 
-  h <- base_hcl[1]; c <- base_hcl[2]
+  hcl_names <- colnames(base_hcl)
+  h <- base_hcl[hcl_names=="H"]
+  c <- base_hcl[hcl_names=="C"]
   try_l <- seq(20, 95, by = 5)
-  candidates <- colorspace::hex(colorspace::polarLUV(L = try_l, C = c, H = h))
+  candidates <- colorspace::hex(colorspace::polarLUV(L = try_l, C = c, H = h), fixup =TRUE)
 
   get_contrast <- function(fg, bg, method) {
     result <- tryCatch({
@@ -87,8 +89,8 @@ adjust_contrast_pair <- function(color, contrast = 4.5, method = "auto",
 
   for (m in contrast_methods) {
     contrasts <- sapply(candidates, get_contrast, bg = background, method = m)
-    best_light <- candidates[which.max(contrasts)]
-    best_dark <- candidates[which.min(contrasts)]
+    best_light <- candidates[which.min(contrasts)]
+    best_dark <- candidates[which.max(contrasts)]
     max_contrast <- max(contrasts, na.rm = TRUE)
 
     if (!is.na(max_contrast) && max_contrast >= contrast) {
