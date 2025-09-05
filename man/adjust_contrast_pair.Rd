@@ -13,13 +13,13 @@ adjust_contrast_pair(
 )
 }
 \arguments{
-\item{color}{A base color in hexadecimal format (e.g., "#6699CC").}
+\item{color}{A base color, as a hex string or valid R color name (e.g., "#6699CC", "darkred").}
 
 \item{contrast}{Minimum desired contrast ratio (default is 4.5).}
 
 \item{method}{Contrast method: "WCAG", "APCA", or "auto" to try both.}
 
-\item{background}{Background color (default: "#FFFFFF").}
+\item{background}{Background color, as a hex string or valid R color name (default: "#FFFFFF").}
 
 \item{quiet}{Logical. If TRUE, suppresses warnings.}
 }

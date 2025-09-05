@@ -3,10 +3,10 @@
 #' Given a base color and a background, generate a pair of colors (light and dark)
 #' with sufficient perceptual contrast using WCAG or APCA methods.
 #'
-#' @param color A base color in hexadecimal format (e.g., "#6699CC").
+#' @param color A base color, as a hex string or valid R color name (e.g., "#6699CC", "darkred").
 #' @param contrast Minimum desired contrast ratio (default is 4.5).
 #' @param method Contrast method: "WCAG", "APCA", or "auto" to try both.
-#' @param background Background color (default: "#FFFFFF").
+#' @param background Background color, as a hex string or valid R color name (default: "#FFFFFF").
 #' @param quiet Logical. If TRUE, suppresses warnings.
 #'
 #' @return A list with elements `light`, `dark`, `contrast`, and `method`.
@@ -29,6 +29,26 @@ adjust_contrast_pair <- function(color, contrast = 4.5, method = "auto",
 
   if (!is.character(background) || length(background) != 1 || is.na(background)) {
     warning("Invalid background input.")
+    return(list(light = "#FFFFFF", dark = "#000000", contrast = NA, method = method))
+  }
+
+  # Keep originals for clear warnings
+  orig_color <- color
+  orig_background <- background
+
+  # Normalize both to hex (handles names like "darkred")
+  color <- safe_as_hex(color)[1]
+  background <- safe_as_hex(background)[1]
+
+  # Short-circuit invalid background
+  if (is.na(background)) {
+    if (!quiet) warning(sprintf("Invalid background color: %s", orig_background))
+    return(list(light = "#FFFFFF", dark = "#000000", contrast = NA, method = method))
+  }
+
+  # Short-circuit invalid base color
+  if (is.na(color)) {
+    if (!quiet) warning(sprintf("Could not convert base color %s to HCL.", orig_color))
     return(list(light = "#FFFFFF", dark = "#000000", contrast = NA, method = method))
   }
 
