@@ -1,69 +1,69 @@
 GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
-                         required_aes = c("x", "y", "xend", "yend"),
+                                  required_aes = c("x", "y", "xend", "yend"),
 
-                         default_aes = ggplot2::aes(
-                           color1 = "white",
-                           color2 = "black",
-                           linewidth = 1.2,
-                           curvature = 0.3,
-                           angle = 90,
-                           ncp = 5,
-                           alpha = 1
-                         ),
+                                  default_aes = ggplot2::aes(
+                                    colour1 = "white",
+                                    colour2 = "black",
+                                    linewidth = 1.2,
+                                    curvature = 0.3,
+                                    angle = 90,
+                                    ncp = 5,
+                                    alpha = 1
+                                  ),
 
-                         draw_panel = function(data, panel_params, coord, offset = 0.01) {
-                           coords <- coord$transform(data, panel_params)
-                           valid <- complete.cases(coords[, c("x", "y", "xend", "yend")])
-                           coords <- coords[valid, , drop = FALSE]
-                           if (nrow(coords) == 0) return(nullGrob())
+                                  draw_panel = function(data, panel_params, coord, offset = 0.01) {
+                                    coords <- coord$transform(data, panel_params)
+                                    valid <- complete.cases(coords[, c("x", "y", "xend", "yend")])
+                                    coords <- coords[valid, , drop = FALSE]
+                                    if (nrow(coords) == 0) return(nullGrob())
 
-                           if (!"color1"  %in% names(coords)) coords$color1  <- "white"
-                           if (!"color2" %in% names(coords)) coords$color2 <- "black"
+                                    if (!"colour1"  %in% names(coords)) coords$colour1  <- "white"
+                                    if (!"colour2" %in% names(coords)) coords$colour2 <- "black"
 
-                           grobs <- vector("list", nrow(coords) * 2)
+                                    grobs <- vector("list", nrow(coords) * 2)
 
-                           for (i in seq_len(nrow(coords))) {
-                             row <- coords[i, ]
+                                    for (i in seq_len(nrow(coords))) {
+                                      row <- coords[i, ]
 
-                             dx <- row$xend - row$x
-                             dy <- row$yend - row$y
-                             len <- sqrt(dx^2 + dy^2)
-                             if (len == 0) next
+                                      dx <- row$xend - row$x
+                                      dy <- row$yend - row$y
+                                      len <- sqrt(dx^2 + dy^2)
+                                      if (len == 0) next
 
-                             # Perpendicular offset
-                             perp_x <- -dy / len
-                             perp_y <-  dx / len
+                                      # Perpendicular offset
+                                      perp_x <- -dy / len
+                                      perp_y <-  dx / len
 
-                             dx_off <- offset * perp_x
-                             dy_off <- offset * perp_y
+                                      dx_off <- offset * perp_x
+                                      dy_off <- offset * perp_y
 
-                             # Bottom stroke (drawn first)
-                             grobs[[2*i - 1]] <- grid::curveGrob(
-                               x1 = row$x    - dx_off,
-                               y1 = row$y    - dy_off,
-                               x2 = row$xend - dx_off,
-                               y2 = row$yend - dy_off,
-                               curvature = row$curvature,
-                               angle = row$angle,
-                               ncp = row$ncp,
-                               gp = grid::gpar(col = row$color2, lwd = row$linewidth, alpha = row$alpha)
-                             )
+                                      # Bottom stroke (drawn first)
+                                      grobs[[2*i - 1]] <- grid::curveGrob(
+                                        x1 = row$x    - dx_off,
+                                        y1 = row$y    - dy_off,
+                                        x2 = row$xend - dx_off,
+                                        y2 = row$yend - dy_off,
+                                        curvature = row$curvature,
+                                        angle = row$angle,
+                                        ncp = row$ncp,
+                                        gp = grid::gpar(col = row$colour2, lwd = row$linewidth, alpha = row$alpha)
+                                      )
 
-                             # Top stroke
-                             grobs[[2*i]] <- grid::curveGrob(
-                               x1 = row$x    + dx_off,
-                               y1 = row$y    + dy_off,
-                               x2 = row$xend + dx_off,
-                               y2 = row$yend + dy_off,
-                               curvature = row$curvature,
-                               angle = row$angle,
-                               ncp = row$ncp,
-                               gp = grid::gpar(col = row$color1, lwd = row$linewidth, alpha = row$alpha)
-                             )
-                           }
+                                      # Top stroke
+                                      grobs[[2*i]] <- grid::curveGrob(
+                                        x1 = row$x    + dx_off,
+                                        y1 = row$y    + dy_off,
+                                        x2 = row$xend + dx_off,
+                                        y2 = row$yend + dy_off,
+                                        curvature = row$curvature,
+                                        angle = row$angle,
+                                        ncp = row$ncp,
+                                        gp = grid::gpar(col = row$colour1, lwd = row$linewidth, alpha = row$alpha)
+                                      )
+                                    }
 
-                           grid::grobTree(do.call(grid::gList, grobs))
-                         }
+                                    grid::grobTree(do.call(grid::gList, grobs))
+                                  }
 )
 
 #' @title Dual-Stroke Curved Line Annotations
@@ -72,8 +72,9 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 #' with slight perpendicular offset to ensure visibility across mixed backgrounds.
 #'
 #' @inheritParams ggplot2::geom_curve
-#' @param color1 Color for the top (visible) stroke (default: white).
-#' @param color2 Color for the bottom (outline) stroke (default: black).
+#' @param base_color Base Color to derive the dual-tone pair from.
+#' @param contrast Minimum contrast ratio to aim for (default is 4.5).
+#' @param method_contrast Contrast algorithm to use ("WCAG", "APCA", or "auto")
 #' @param offset Perpendicular offset to visually separate strokes (default: 0.003).
 #' @param curvature Bend of the curve (positive = counter-clockwise).
 #' @param angle Angle between the two control points (default: 90).
@@ -97,10 +98,10 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 #' ggplot() +
 #'   geom_curve_dual(
 #'     aes(x = 2, y = 1, xend = 4, yend = 3),
-#'     curvature = 0.3, offset = 0.003, linewidth = 2
+#'     curvature = 0.3, offset = 0.003, linewidth = 2, base_color = "red"
 #'   ) +
-#'   geom_point(aes(x = 2, y = 1), color = "red", size = 3) +
-#'   geom_point(aes(x = 4, y = 3), color = "blue", size = 3) +
+#'   geom_point(aes(x = 2, y = 1), colour = "red", size = 3) +
+#'   geom_point(aes(x = 4, y = 3), colour = "blue", size = 3) +
 #'   theme_dark(base_size = 14)
 #'
 #' # Curve on a grayscale tile background
@@ -112,7 +113,7 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 #'   geom_curve_dual(
 #'     data = data.frame(x = 1, y = 1, xend = 6, yend = 4),
 #'     aes(x = x, y = y, xend = xend, yend = yend),
-#'     color1 = "white", color2 = "black",
+#'     colour1 = "white", colour2 = "black",
 #'     curvature = 0.4, offset = 0.003, linewidth = 2
 #'   ) +
 #'   scale_fill_identity() +
@@ -123,9 +124,32 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 #' @export
 geom_curve_dual <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
-                            ..., offset = 0.003, curvature = 0.3, angle = 90,
-                            ncp = 5, color1 = "white", color2 = "black",
+                            ...,
+                            offset = 0.003, curvature = 0.3, angle = 90,
+                            ncp = 5, base_color = NULL,
+                            contrast = 4.5,              # used only if base_color is given
+                            method_contrast = "WCAG",    # ''
                             na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
+
+  if (!is.null(base_color)) {
+    cp <- adjust_contrast_pair(
+      color    = base_color,
+      contrast = contrast,
+      method   = method_contrast,
+      quiet    = TRUE
+    )
+
+    if (is.null(mapping)) {
+      mapping <- ggplot2::aes(
+        colour1 = !!cp$light,
+        colour2 = !!cp$dark
+      )
+    } else {
+      mapping$colour1 <- rlang::quo(!!cp$light)
+      mapping$colour2 <- rlang::quo(!!cp$dark)
+    }
+  }
+
   layer(
     geom = GeomCurveDual,
     mapping = mapping, data = data, stat = stat,
@@ -134,4 +158,3 @@ geom_curve_dual <- function(mapping = NULL, data = NULL,
     params = list(offset = offset, na.rm = na.rm, ...)
   )
 }
-

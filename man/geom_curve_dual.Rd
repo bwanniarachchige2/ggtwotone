@@ -14,8 +14,9 @@ geom_curve_dual(
   curvature = 0.3,
   angle = 90,
   ncp = 5,
-  color1 = "white",
-  color2 = "black",
+  base_color = NULL,
+  contrast = 4.5,
+  method_contrast = "WCAG",
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -104,9 +105,11 @@ lists which parameters it can accept.
 
 \item{ncp}{Number of control points (default: 5).}
 
-\item{color1}{Color for the top (visible) stroke (default: white).}
+\item{base_color}{Base Color to derive the dual-tone pair from.}
 
-\item{color2}{Color for the bottom (outline) stroke (default: black).}
+\item{contrast}{Minimum contrast ratio to aim for (default is 4.5).}
+
+\item{method_contrast}{Contrast algorithm to use ("WCAG", "APCA", or "auto")}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
@@ -144,10 +147,10 @@ ggplot() +
 ggplot() +
   geom_curve_dual(
     aes(x = 2, y = 1, xend = 4, yend = 3),
-    curvature = 0.3, offset = 0.003, linewidth = 2
+    curvature = 0.3, offset = 0.003, linewidth = 2, base_color = "red"
   ) +
-  geom_point(aes(x = 2, y = 1), color = "red", size = 3) +
-  geom_point(aes(x = 4, y = 3), color = "blue", size = 3) +
+  geom_point(aes(x = 2, y = 1), colour = "red", size = 3) +
+  geom_point(aes(x = 4, y = 3), colour = "blue", size = 3) +
   theme_dark(base_size = 14)
 
 # Curve on a grayscale tile background
@@ -159,7 +162,7 @@ ggplot() +
   geom_curve_dual(
     data = data.frame(x = 1, y = 1, xend = 6, yend = 4),
     aes(x = x, y = y, xend = xend, yend = yend),
-    color1 = "white", color2 = "black",
+    colour1 = "white", colour2 = "black",
     curvature = 0.4, offset = 0.003, linewidth = 2
   ) +
   scale_fill_identity() +
