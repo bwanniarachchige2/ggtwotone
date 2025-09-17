@@ -10,15 +10,18 @@ geom_curve_dual_function(
   n = 701,
   curvature = 0,
   angle = 90,
-  ncp = 20,
-  color1 = "#FFFFFF",
-  color2 = NULL,
-  background = "#000000",
-  contrast_method = "APCA",
-  offset = 0.003,
+  ncp = 5,
+  colour1 = NULL,
+  colour2 = NULL,
+  base_color = NULL,
+  contrast = 4.5,
+  method_contrast = "WCAG",
   linewidth = 1.2,
   args = list(),
-  smooth = FALSE,
+  smooth = TRUE,
+  color1 = NULL,
+  color2 = NULL,
+  alpha = 1,
   ...
 )
 }
@@ -31,21 +34,23 @@ geom_curve_dual_function(
 
 \item{curvature, angle, ncp}{Passed to underlying \code{geom_curve_dual} segments.}
 
-\item{color1}{Top stroke color (typically light).}
+\item{colour1, colour2}{Fixed top/bottom stroke colours. If only colour1 given,
+colour2 is derived for contrast. (Aliases color1/color2 also accepted.)}
 
-\item{color2}{Bottom stroke color (typically dark). If NULL, will be auto-computed for contrast.}
+\item{base_color}{Optional base color to derive a contrast pair (overrides colour1/colour2 if supplied).}
 
-\item{background}{Background color used for contrast calculation (default: \code{"#000000"}).}
-
-\item{contrast_method}{Either "apca", "wcag", or "auto".}
-
-\item{offset}{Perpendicular offset between strokes.}
+\item{contrast, method_contrast}{Passed to adjust_contrast_pair() when deriving colors.}
 
 \item{linewidth}{Stroke width for the top line.}
 
 \item{args}{List of arguments passed to \code{fun} (for example, list(df = 1) for \code{dt}).}
 
-\item{smooth}{Use smooth dual-stroke curves (\code{geom_path}) instead of segmented curves (\code{geom_curve_dual}). Default is FALSE.}
+\item{smooth}{Use smooth dual-stroke curves (\code{geom_path}) instead of segmented curves (\code{geom_curve_dual}). Default is TRUE.}
+
+\item{color1, color2}{U.S.-spelling aliases for \code{colour1}/\code{colour2}. Identical
+in effect; prefer \code{colour1}/\code{colour2} in code examples.}
+
+\item{alpha}{Overall opacity for both strokes (0–1).}
 
 \item{...}{Additional arguments passed to \code{geom_curve_dual()}.}
 }
@@ -65,22 +70,17 @@ base +
   xlim = c(-2, 2),
   color1 = "#EEEEEE",
   color2 = "#222222",
-  offset = 0.004,
   linewidth = 1,
   smooth = TRUE
   ) +
   theme_dark()
 
-pair1 <- adjust_contrast_pair("#FFFFFF", background = "black", method = "APCA")
-pair2 <- adjust_contrast_pair("#AAAAAA", background = "black", method = "APCA")
 
 ggplot() +
   geom_curve_dual_function(
     fun = dnorm,
     xlim = c(-5, 5),
-    color1  = pair1$light,
-    color2 = pair1$dark,
-    offset = 0.003,
+    base_color = "green",
     linewidth = 1,
     smooth = TRUE
   ) +
@@ -88,9 +88,7 @@ ggplot() +
     fun = dt,
     args = list(df = 1),
     xlim = c(-5, 5),
-    color1  = pair2$light,
-    color2 = pair2$dark,
-    offset = 0.003,
+    base_color = "brown",
     linewidth = 1,
     smooth = TRUE
   ) +
