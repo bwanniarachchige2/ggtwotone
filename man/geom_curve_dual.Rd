@@ -10,7 +10,6 @@ geom_curve_dual(
   stat = "identity",
   position = "identity",
   ...,
-  offset = 0.003,
   curvature = 0.3,
   angle = 90,
   ncp = 5,
@@ -97,8 +96,6 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{offset}{Perpendicular offset to visually separate strokes (default: 0.003).}
-
 \item{curvature}{Bend of the curve (positive = counter-clockwise).}
 
 \item{angle}{Angle between the two control points (default: 90).}
@@ -147,7 +144,8 @@ ggplot() +
 ggplot() +
   geom_curve_dual(
     aes(x = 2, y = 1, xend = 4, yend = 3),
-    curvature = 0.3, offset = 0.003, linewidth = 2, base_color = "red"
+    curvature = 0.3,
+    linewidth = 2, base_color = "red"
   ) +
   geom_point(aes(x = 2, y = 1), colour = "red", size = 3) +
   geom_point(aes(x = 4, y = 3), colour = "blue", size = 3) +
@@ -163,7 +161,8 @@ ggplot() +
     data = data.frame(x = 1, y = 1, xend = 6, yend = 4),
     aes(x = x, y = y, xend = xend, yend = yend),
     colour1 = "white", colour2 = "black",
-    curvature = 0.4, offset = 0.003, linewidth = 2
+    curvature = 0.4,
+    linewidth = 2
   ) +
   scale_fill_identity() +
   theme_void() +
