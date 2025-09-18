@@ -3,8 +3,8 @@ test_that("geom_curve_dual_function works with basic function", {
     geom_curve_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
-      color1 = "white",
-      color2 = "black"
+      colour1 = "white",
+      colour2 = "black"
     )
   expect_silent(ggplot2::ggplot_build(p))
 })
@@ -14,9 +14,9 @@ test_that("geom_curve_dual_function computes fallback contrast color", {
     geom_curve_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
-      color1 = "#FFFFFF",
-      color2 = NULL,
-      background = "#000000"
+      colour1 = "#FFFFFF",
+      colour2 = NULL
+      #background = "#000000"
     )
   expect_silent(ggplot2::ggplot_build(p))
 })
@@ -28,9 +28,9 @@ test_that("geom_curve_dual_function works with smooth = TRUE", {
       xlim = c(-3, 3),
       smooth = TRUE,
       linewidth = 1,
-      color1 = "#FFFFFF",
-      color2 = "#000000",
-      offset = 0.003
+      colour1 = "#FFFFFF",
+      colour2 = "#000000"
+      #offset = 0.003
     )
 
   expect_silent(ggplot2::ggplot_build(p))
