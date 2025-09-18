@@ -59,15 +59,12 @@ bg_grob <- grid::rasterGrob(img, width = unit(1,"npc"), height = unit(1,"npc"))
 
 # Plot
 ggplot() +
-  #annotation_custom(bg_grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) +
+  annotation_custom(bg_grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) +
 
   geom_curve_dual_function(
     fun = dnorm,
     xlim = c(-3, 6),
     base_color = "blue",
-    #colour1 = "#FFFFFF",
-    #colour2 = "#000000",
-    #offset = 0.003,
     linewidth = 2,
     smooth = TRUE
   ) +
@@ -77,7 +74,6 @@ ggplot() +
     xlim = c(-3, 6),
     colour1 = "#FFFFCC",
     colour2 = "#4B0000",
-    #offset = 0.003,
     linewidth = 2,
     smooth = TRUE
   ) +
