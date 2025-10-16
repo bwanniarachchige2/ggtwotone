@@ -10,9 +10,9 @@ geom_curve_dual(
   stat = "identity",
   position = "identity",
   ...,
-  curvature = 0.3,
-  angle = 90,
-  ncp = 5,
+  curvature = NULL,
+  angle = NULL,
+  ncp = NULL,
   base_color = NULL,
   contrast = 4.5,
   method_contrast = "WCAG",
@@ -139,6 +139,16 @@ ggplot() +
   ) +
   theme_void() +
   theme(panel.background = element_rect(fill = "black"))
+
+b <- ggplot(mtcars, aes(wt, mpg)) + geom_point(size = 2) + theme_dark()
+df <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
+b + geom_curve_dual(
+    data = df,
+    mapping = aes(x = x1, y = y1, xend = x2, yend = y2),
+    curvature = -0.2,
+    linewidth = 2, base_color = "green"
+  )
+
 
 # Sine wave style dual-stroke curve with points
 ggplot() +

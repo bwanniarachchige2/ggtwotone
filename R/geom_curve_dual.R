@@ -14,7 +14,8 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
                                     linemitre = 10
                                   ),
 
-                                  draw_panel = function(data, panel_params, coord #, offset = 0.003
+                                  draw_panel = function(data, panel_params, coord,
+                                                        curvature = 0.3, angle = 90, ncp = 21
                                                         ) {
                                     coords <- coord$transform(data, panel_params)
                                     valid <- complete.cases(coords[, c("x", "y", "xend", "yend")])
@@ -23,6 +24,11 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 
                                     if (!"colour1"  %in% names(coords)) coords$colour1  <- "white"
                                     if (!"colour2" %in% names(coords)) coords$colour2 <- "black"
+
+                                    # fallback to params if aesthetics missing/NA
+                                    if (!"curvature" %in% names(coords) || all(is.na(coords$curvature))) coords$curvature <- curvature
+                                    if (!"angle"     %in% names(coords) || all(is.na(coords$angle)))     coords$angle     <- angle
+                                    if (!"ncp"       %in% names(coords) || all(is.na(coords$ncp)))       coords$ncp       <- ncp
 
                                     # control points like ggplot2::GeomCurve
                                     control_pts <- function(x1, y1, x2, y2, curvature, angle) {
@@ -92,7 +98,7 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
                                       ux <- grid::unit(bz$x, "native")
                                       uy <- grid::unit(bz$y, "native")
 
-                                      # dark/bottom stroke first (slightly thicker to mask AA seam)
+                                      # dark/bottom stroke first
                                       grobs[[gi]] <- grid::polylineGrob(
                                         x = ux - ox, y = uy - oy,
                                         gp = grid::gpar(
@@ -150,6 +156,16 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 #'   theme_void() +
 #'   theme(panel.background = element_rect(fill = "black"))
 #'
+#' b <- ggplot(mtcars, aes(wt, mpg)) + geom_point(size = 2) + theme_dark()
+#' df <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
+#' b + geom_curve_dual(
+#'     data = df,
+#'     mapping = aes(x = x1, y = y1, xend = x2, yend = y2),
+#'     curvature = -0.2,
+#'     linewidth = 2, base_color = "green"
+#'   )
+#'
+#'
 #' # Sine wave style dual-stroke curve with points
 #' ggplot() +
 #'   geom_curve_dual(
@@ -183,8 +199,8 @@ GeomCurveDual <- ggplot2::ggproto("GeomCurveDual", ggplot2::Geom,
 geom_curve_dual <- function(mapping = NULL, data = NULL,
                             stat = "identity", position = "identity",
                             ...,
-                            curvature = 0.3, angle = 90,
-                            ncp = 5, base_color = NULL,
+                            curvature = NULL, angle = NULL,
+                            ncp = NULL, base_color = NULL,
                             contrast = 4.5,              # used only if base_color is given
                             method_contrast = "WCAG",    # ''
                             na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
@@ -207,6 +223,17 @@ geom_curve_dual <- function(mapping = NULL, data = NULL,
       mapping$colour2 <- rlang::quo(!!cp$dark)
     }
   }
+
+  # make sure mapping exists
+  if (is.null(mapping)) mapping <- ggplot2::aes()
+
+  # inject constants so draw_panel() can read them from `data`
+  if (!is.null(curvature) && is.null(mapping$curvature))
+    mapping$curvature <- rlang::quo(!!curvature)
+  if (!is.null(angle) && is.null(mapping$angle))
+    mapping$angle <- rlang::quo(!!angle)
+  if (!is.null(ncp) && is.null(mapping$ncp))
+    mapping$ncp <- rlang::quo(!!ncp)
 
   layer(
     geom = GeomCurveDual,
