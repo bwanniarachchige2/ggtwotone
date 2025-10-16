@@ -287,7 +287,6 @@ ggplot() +
 
 SEM micrograph with dual-stroke measurement overlay
 
-
 # Drawing two lines side by side
 
 The basic idea of drawing line segments with the `segment_dual` geom is to replace any line segment from A to B by two line segments drawn side by sidein different color hues chosen such that at least one of the coior hues has a sufficiently large (color) contrast to any background colors.

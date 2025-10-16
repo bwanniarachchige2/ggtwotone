@@ -47,7 +47,7 @@ These are some examples which show you how to use the package:
 library(ggtwotone) # automatically loads ggplot2 if it is not active
 #> Loading required package: ggplot2
 library(magick)
-#> Linking to ImageMagick 6.9.12.93
+#> Linking to ImageMagick 6.9.13.29
 #> Enabled features: cairo, fontconfig, freetype, heic, lcms, pango, raw, rsvg, webp
 #> Disabled features: fftw, ghostscript, x11
 library(grid)
