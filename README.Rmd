@@ -287,6 +287,61 @@ ggplot() +
 
 SEM micrograph with dual-stroke measurement overlay
 
+```{r example 6, warning=FALSE, message=FALSE}
+# Packages
+library(ggplot2)
+library(dplyr)
+library(sf)
+library(scales)
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+# 1) Africa polygons
+africa <- rnaturalearth::ne_countries(
+  continent = "Africa", scale = "medium", returnclass = "sf"
+)
+
+# 2) Simple variable (simulate GDP per capita, k USD)
+set.seed(1)
+africa$gdp_pc <- runif(nrow(africa), min = 1, max = 30)
+
+# 3) Palette + per-country HEX for contrast
+pal <- c("#0C2C84", "#41B6C4", "#A1DAB4", "#FFFFCC", "#FDAE61", "#D73027")
+col_fun <- scales::col_numeric(palette = pal,
+                               domain = range(africa$gdp_pc, na.rm = TRUE))
+africa$fill_hex <- col_fun(africa$gdp_pc)
+
+# 4) Label positions
+labels <- africa %>%
+  mutate(
+    point = sf::st_point_on_surface(geometry),
+    lon   = sf::st_coordinates(point)[, 1],
+    lat   = sf::st_coordinates(point)[, 2],
+    area  = as.numeric(sf::st_area(geometry)),
+    code  = iso_a3
+  ) %>%
+  dplyr::slice_max(area, n = 20)
+
+# 5) Plot
+ggplot(africa) +
+  geom_sf(aes(fill = gdp_pc), color = "white", linewidth = 0.2) +
+  geom_text_contrast(
+    data = labels,
+    aes(x = lon, y = lat, label = code),
+    inherit.aes = FALSE,
+    background  = labels$fill_hex,
+    base_colour = "blue",
+    method = "auto", contrast = 4.5,
+    size = 2.5, fontface = "bold"
+  ) +
+  scale_fill_gradientn(colours = pal, name = "GDP per Capita (k USD)") +
+  coord_sf(expand = FALSE) +
+  labs(title = "Simulated Africa Map with Auto-Contrast Labels", x = NULL, y = NULL) +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid = element_blank(), axis.text = element_blank())
+
+```
+
 # Drawing two lines side by side
 
 The basic idea of drawing line segments with the `segment_dual` geom is to replace any line segment from A to B by two line segments drawn side by sidein different color hues chosen such that at least one of the coior hues has a sufficiently large (color) contrast to any background colors.
