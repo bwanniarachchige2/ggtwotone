@@ -61,7 +61,7 @@ safe_as_hex <- function(col) {
 #' Creates n colors by:
 #'  (1) sampling HCL colors (global or biased),
 #'  (2) filtering by WCAG/APCA contrast vs `background` (and optionally vs `base_color`),
-#'  (3) selecting a maximally-separated subset by ΔE2000 and minimum hue spacing.
+#'  (3) selecting a maximally separated subset by ΔE2000 and minimum hue spacing.
 #'
 #' Set `contrast_base = 0` to ignore base contrast (keeps only background contrast).
 #' Use `hue_targets = "anchored"` to sample around `base_color` (legacy-like).
@@ -77,7 +77,7 @@ safe_as_hex <- function(col) {
 #' @param contrast_bg Required contrast vs background (WCAG ratio or APCA Lc depending on backend). Default 4.5.
 #' @param contrast_base Required contrast vs base_color (set 0 to skip). Default 3.0.
 #' @param min_deltaE Minimum CIEDE2000 separation between selected colors. Default 35.
-#' @param hue_targets "auto", "anchored", "spread", or numeric vector of hue angles (0–360).
+#' @param hue_targets "auto", "anchored", "spread", or numeric vector of hue angles (0-360).
 #' @param anchor_band Degrees around base hue to sample when hue_targets="anchored". Default 180.
 #' @param hcl_L_range Allowed HCL lightness range. Default c(25, 75).
 #' @param hcl_C_range Allowed HCL chroma range. Default c(40, 90).
@@ -86,7 +86,7 @@ safe_as_hex <- function(col) {
 #' @param relax Progressively relax min_hue_sep then min_deltaE if infeasible. Default TRUE.
 #' @param quiet Suppress relaxation messages. Default TRUE.
 #' @param repel_from Character vector among c("background","base") to avoid those hue neighborhoods.
-#' @param repel_band Degrees excluded around the repelled hues (±band). Default 50.
+#' @param repel_band Degrees excluded around the repelled hues (+/- band). Default 50.
 #' @param auto_bias Logical; if TRUE and bg/base are far apart, bias sampling toward opponent hues.
 #' @param bias_width Width (degrees) of opponent sampling window when auto_bias applies. Default 120.
 #' @param bias_frac Fraction of samples drawn from the biased window when auto_bias applies. Default 0.8.
@@ -133,7 +133,7 @@ safe_as_hex <- function(col) {
 #'     geom_col(width = 0.8) +
 #'     scale_fill_identity() +
 #'     coord_flip() +
-#'     labs(title = "Dark base on light background (auto → APCA)",
+#'     labs(title = "Dark base on light background (auto -> APCA)",
 #'          x = NULL, y = "Count") +
 #'     theme_minimal(base_size = 12) +
 #'     theme(
@@ -180,7 +180,7 @@ safe_as_hex <- function(col) {
 #'     geom_col(width = 0.8) +
 #'     scale_fill_identity() +
 #'     coord_flip() +
-#'     labs(title = "Light base on dark background (auto → WCAG)",
+#'     labs(title = "Light base on dark background (auto -> WCAG)",
 #'          x = NULL, y = "Count") +
 #'     theme_minimal(base_size = 12) +
 #'     theme(
@@ -384,7 +384,7 @@ highlight_colors <- function(
   contrast_base_eff <- used_base
   if (!quiet && (used_repel != repel_band || used_bg != contrast_bg || used_base != contrast_base)) {
     message(sprintf(
-      "Effective settings: repel_band = %d°, contrast_bg = %.1f, contrast_base = %.1f",
+      "Effective settings: repel_band = %d deg, contrast_bg = %.1f, contrast_base = %.1f",
       used_repel, used_bg, used_base
     ))
   }
@@ -436,7 +436,7 @@ highlight_colors <- function(
                     contrast_base_eff, contrast_bg_eff))
   }
 
-  # --- ΔE/hue-spread selection ----------------------------------------------
+  # --- DE/hue-spread selection ----------------------------------------------
   rgb255 <- t(grDevices::col2rgb(cand_hex))
   lab    <- farver::convert_colour(rgb255, from = "rgb", to = "lab")
   cand_H <- farver::decode_colour(cand_hex, to = "hcl")[, 1]

@@ -31,5 +31,21 @@ test_that("geom_segment_dual handles NA color1 without warning", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
+test_that("geom_segment_dual basic rendering", {
+  skip_if_not_installed("vdiffr")
+  skip_on_cran()
 
+  p <- ggplot(mtcars) +
+    geom_segment_dual(
+      aes(x = wt, y = mpg, xend = wt + 0.5, yend = mpg + 2),
+      colour1 = "black",
+      colour2 = "white",
+      linewidth = 1.5
+    )
+
+  vdiffr::expect_doppelganger(
+    "geom-segment-dual-basic",
+    p
+  )
+})
 

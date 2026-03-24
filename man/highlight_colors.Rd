@@ -40,7 +40,7 @@ highlight_colors(
 
 \item{min_deltaE}{Minimum CIEDE2000 separation between selected colors. Default 35.}
 
-\item{hue_targets}{"auto", "anchored", "spread", or numeric vector of hue angles (0–360).}
+\item{hue_targets}{"auto", "anchored", "spread", or numeric vector of hue angles (0-360).}
 
 \item{anchor_band}{Degrees around base hue to sample when hue_targets="anchored". Default 180.}
 
@@ -58,7 +58,7 @@ highlight_colors(
 
 \item{repel_from}{Character vector among c("background","base") to avoid those hue neighborhoods.}
 
-\item{repel_band}{Degrees excluded around the repelled hues (±band). Default 50.}
+\item{repel_band}{Degrees excluded around the repelled hues (+/- band). Default 50.}
 
 \item{auto_bias}{Logical; if TRUE and bg/base are far apart, bias sampling toward opponent hues.}
 
@@ -84,7 +84,7 @@ Changes from your previous version:
 Creates n colors by:
 (1) sampling HCL colors (global or biased),
 (2) filtering by WCAG/APCA contrast vs \code{background} (and optionally vs \code{base_color}),
-(3) selecting a maximally-separated subset by ΔE2000 and minimum hue spacing.
+(3) selecting a maximally separated subset by ΔE2000 and minimum hue spacing.
 
 Set \code{contrast_base = 0} to ignore base contrast (keeps only background contrast).
 Use \code{hue_targets = "anchored"} to sample around \code{base_color} (legacy-like).
@@ -135,7 +135,7 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
     geom_col(width = 0.8) +
     scale_fill_identity() +
     coord_flip() +
-    labs(title = "Dark base on light background (auto → APCA)",
+    labs(title = "Dark base on light background (auto -> APCA)",
          x = NULL, y = "Count") +
     theme_minimal(base_size = 12) +
     theme(
@@ -182,7 +182,7 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
     geom_col(width = 0.8) +
     scale_fill_identity() +
     coord_flip() +
-    labs(title = "Light base on dark background (auto → WCAG)",
+    labs(title = "Light base on dark background (auto -> WCAG)",
          x = NULL, y = "Count") +
     theme_minimal(base_size = 12) +
     theme(
