@@ -1,0 +1,286 @@
+# Contrast-Aware Text Geom
+
+Automatically adjusts text colour for readability on varying background
+colours using WCAG or APCA contrast.
+
+## Usage
+
+``` r
+geom_text_contrast(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
+  method = "auto",
+  contrast = 4.5,
+  base_colour = NULL,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  background = NULL
+)
+```
+
+## Arguments
+
+- mapping:
+
+  Set of aesthetic mappings created by
+  [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html). If
+  specified and `inherit.aes = TRUE` (the default), it is combined with
+  the default mapping at the top level of the plot. You must supply
+  `mapping` if there is no plot mapping.
+
+- data:
+
+  The data to be displayed in this layer. There are three options:
+
+  If `NULL`, the default, the data is inherited from the plot data as
+  specified in the call to
+  [`ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html).
+
+  A `data.frame`, or other object, will override the plot data. All
+  objects will be fortified to produce a data frame. See
+  [`fortify()`](https://ggplot2.tidyverse.org/reference/fortify.html)
+  for which variables will be created.
+
+  A `function` will be called with a single argument, the plot data. The
+  return value must be a `data.frame`, and will be used as the layer
+  data. A `function` can be created from a `formula` (e.g.
+  `~ head(.x, 10)`).
+
+- stat:
+
+  The statistical transformation to use on the data for this layer. When
+  using a `geom_*()` function to construct a layer, the `stat` argument
+  can be used to override the default coupling between geoms and stats.
+  The `stat` argument accepts the following:
+
+  - A `Stat` ggproto subclass, for example `StatCount`.
+
+  - A string naming the stat. To give the stat as a string, strip the
+    function name of the `stat_` prefix. For example, to use
+    [`stat_count()`](https://ggplot2.tidyverse.org/reference/geom_bar.html),
+    give the stat as `"count"`.
+
+  - For more information and other ways to specify the stat, see the
+    [layer
+    stat](https://ggplot2.tidyverse.org/reference/layer_stats.html)
+    documentation.
+
+- position:
+
+  A position adjustment to use on the data for this layer. This can be
+  used in various ways, including to prevent overplotting and improving
+  the display. The `position` argument accepts the following:
+
+  - The result of calling a position function, such as
+    [`position_jitter()`](https://ggplot2.tidyverse.org/reference/position_jitter.html).
+    This method allows for passing extra arguments to the position.
+
+  - A string naming the position adjustment. To give the position as a
+    string, strip the function name of the `position_` prefix. For
+    example, to use
+    [`position_jitter()`](https://ggplot2.tidyverse.org/reference/position_jitter.html),
+    give the position as `"jitter"`.
+
+  - For more information and other ways to specify the position, see the
+    [layer
+    position](https://ggplot2.tidyverse.org/reference/layer_positions.html)
+    documentation.
+
+- ...:
+
+  Other arguments passed on to
+  [`layer()`](https://ggplot2.tidyverse.org/reference/layer.html)'s
+  `params` argument. These arguments broadly fall into one of 4
+  categories below. Notably, further arguments to the `position`
+  argument, or aesthetics that are required can *not* be passed through
+  `...`. Unknown arguments that are not part of the 4 categories below
+  are ignored.
+
+  - Static aesthetics that are not mapped to a scale, but are at a fixed
+    value and apply to the layer as a whole. For example,
+    `colour = "red"` or `linewidth = 3`. The geom's documentation has an
+    **Aesthetics** section that lists the available options. The
+    'required' aesthetics cannot be passed on to the `params`. Please
+    note that while passing unmapped aesthetics as vectors is
+    technically possible, the order and required length is not
+    guaranteed to be parallel to the input data.
+
+  - When constructing a layer using a `stat_*()` function, the `...`
+    argument can be used to pass on parameters to the `geom` part of the
+    layer. An example of this is
+    `stat_density(geom = "area", outline.type = "both")`. The geom's
+    documentation lists which parameters it can accept.
+
+  - Inversely, when constructing a layer using a `geom_*()` function,
+    the `...` argument can be used to pass on parameters to the `stat`
+    part of the layer. An example of this is
+    `geom_area(stat = "density", adjust = 0.5)`. The stat's
+    documentation lists which parameters it can accept.
+
+  - The `key_glyph` argument of
+    [`layer()`](https://ggplot2.tidyverse.org/reference/layer.html) may
+    also be passed on through `...`. This can be one of the functions
+    described as [key
+    glyphs](https://ggplot2.tidyverse.org/reference/draw_key.html), to
+    change the display of the layer in the legend.
+
+- method:
+
+  Contrast method to use: `"WCAG"`, `"APCA"`, or `"auto"`.
+
+- contrast:
+
+  Threshold to ensure between text and background (defaults to 4.5).
+
+- base_colour:
+
+  Base text colour used to generate light/dark variants.
+
+- na.rm:
+
+  If `FALSE`, the default, missing values are removed with a warning. If
+  `TRUE`, missing values are silently removed.
+
+- show.legend:
+
+  logical. Should this layer be included in the legends? `NA`, the
+  default, includes if any aesthetics are mapped. `FALSE` never
+  includes, and `TRUE` always includes. It can also be a named logical
+  vector to finely select the aesthetics to display. To include legend
+  keys for all levels, even when no data exists, use `TRUE`. If `NA`,
+  all levels are shown in legend, but unobserved levels are omitted.
+
+- inherit.aes:
+
+  If `FALSE`, overrides the default aesthetics, rather than combining
+  with them. This is most useful for helper functions that define both
+  data and aesthetics and shouldn't inherit behaviour from the default
+  plot specification, e.g.
+  [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
+
+- background:
+
+  A character vector of background fill colours (hex codes), used for
+  contrast computation.
+
+## Examples
+
+``` r
+library(ggplot2)
+
+# Grayscale A–E tiles: testing contrast
+df <- data.frame(
+  x = 1:5,
+  y = 1,
+  label = LETTERS[1:5],
+  fill = c("#000000", "#222222", "#666666", "#DDDDDD", "#FFFFFF")
+)
+ggplot(df, aes(x, y)) +
+  geom_tile(aes(fill = fill), width = 1, height = 1) +
+  geom_text_contrast(
+    aes(label = label),
+    background = df$fill,
+    size = 7
+  ) +
+  scale_fill_identity() +
+  coord_fixed() +
+  theme_void() +
+  labs(title = "Contrast-Aware Text on Varying Backgrounds")
+
+
+library(dplyr)
+#> 
+#> Attaching package: ‘dplyr’
+#> The following objects are masked from ‘package:stats’:
+#> 
+#>     filter, lag
+#> The following objects are masked from ‘package:base’:
+#> 
+#>     intersect, setdiff, setequal, union
+library(scales)
+
+set.seed(1)
+classes <-c("Cat", "Dog", "Rabit")
+cm <- expand.grid(True = classes, Predicted = classes)
+cm$Count <- sample(5:200, size = nrow(cm), replace = TRUE)
+
+cm <- cm %>%
+  group_by(True) %>%
+  mutate(Accuracy = Count / sum(Count))
+
+pal <- c("#313695", "#74add1", "#fdae61", "#a50026")
+col_fun <- col_numeric(palette = pal, domain = c(0, 1))
+
+cm$fill_hex <- col_fun(cm$Accuracy)
+cm$label <- sprintf("%.1f%%", 100 * cm$Accuracy)
+
+ggplot(cm, aes(Predicted, True)) +
+  geom_tile(aes(fill = Accuracy), color = "white", linewidth = 0.8) +
+    geom_text_contrast(
+    aes(label = label),
+    background = cm$fill_hex,
+    base_colour = "#004488",
+    method = "auto",
+    contrast = 4.5,
+    size = 5, fontface = "bold"
+  ) +
+  scale_fill_gradientn(
+    colours = pal,
+    limits = c(0, 1),
+    name = "Accuracy"
+  ) +
+  coord_fixed() +
+  labs(
+    title = "Confusion Matrix with Auto-Contrast Labels",
+    x = "Predicted Class", y = "True Class"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+# Simulated region × risk category
+df_risk <- expand.grid(
+  region = LETTERS[1:6],
+  zone = paste0("Z", 1:6)
+)
+
+df_risk$risk_level <- sample(
+  c("Low", "Moderate", "High", "Critical", "Severe", "Extreme"),
+  size = nrow(df_risk), replace = TRUE
+)
+df_risk$label <- paste(df_risk$region, df_risk$zone)
+
+risk_colours <- c(
+  "Low" = "gray80",
+  "Moderate" = "skyblue",
+  "High" = "orange",
+  "Critical" = "firebrick",
+  "Severe" = "darkred",
+  "Extreme" = "navy"
+)
+
+df_risk$fill_colour <- risk_colours[df_risk$risk_level]
+
+ggplot(df_risk, aes(x = region, y = zone, fill = risk_level)) +
+  geom_tile(colour = "white") +
+  geom_text_contrast(
+    aes(label = label),
+    background = df_risk$fill_colour,
+    size = 3,
+    fontface = "bold"
+  ) +
+  scale_fill_manual(values = risk_colours) +
+  labs(
+    title = "Simulated Risk Map (Auto Contrast Labels)",
+    fill = "Risk Level"
+  ) +
+  theme_minimal()
+```
