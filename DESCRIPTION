@@ -2,23 +2,26 @@ Type: Package
 Package: ggtwotone
 Title: Dual-Tone and Contrast-Aware ggplot2 Geoms
 Version: 0.1.0
-Authors@R: 
-    person("Beenu", "Sareena", , "beenusareena810@gmail.com", role = c("aut", "cre"))
+Authors@R: c(
+    person("Beenu", "Sareena", email = "beenusareena810@gmail.com", role = c("aut", "cre")),
+    person("Heike", "Hofmann", email = "hhofmann4@unl.edu", role = "aut")
+    )
 Description: Provides dual-stroke and contrast-aware extensions to
     'ggplot2', designed for improved visibility and accessibility in
-    complex visualizations.  Includes geoms for dual-stroke segments,
+    complex visualizations. Includes geoms for dual-stroke segments,
     regression lines, curved annotations, function plots, and adaptive
-    text: 'geom_segment_dual', 'geom_lm_dual', 'geom_curve_dual',
-    'geom_curve_dual_function', and 'geom_text_contrast'.  Also includes a
-    utility function 'adjust_contrast_pair()' for computing perceptually
-    distinct color pairs using WCAG or APCA contrast standards.
+    text: 'geom_segment_dual()', 'geom_lm_dual()', 'geom_curve_dual()',
+    'geom_curve_dual_function()', and 'geom_text_contrast()'. Also
+    includes utility functions such as 'adjust_contrast_pair()',
+    'geom_path_dual()', and 'highlight_colors()' for computing
+    perceptually distinct color pairs and highlight palettes using WCAG-
+    based contrast logic.
 License: MIT + file LICENSE
-URL: https://github.com/bwanniarachchige2/ggtwotone,
-    https://bwanniarachchige2.github.io/ggtwotone/
+URL: https://github.com/bwanniarachchige2/ggtwotone
 BugReports: https://github.com/bwanniarachchige2/ggtwotone/issues
-Depends: 
-    ggplot2 (>= 3.5.2.9002),
-    R (>= 4.4.0)
+Depends:
+    R (>= 4.1.0),
+    ggplot2 (>= 3.4.0)
 Imports:
     colorspace,
     farver,
@@ -34,8 +37,6 @@ Suggests:
     scales,
     testthat (>= 3.0.0),
     vdiffr
-Remotes: 
-    tidyverse/ggplot2
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
