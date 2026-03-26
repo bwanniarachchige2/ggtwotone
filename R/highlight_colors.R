@@ -20,9 +20,8 @@
 
 # APCA absolute Lc (0..~106). Uses coloratio::apca if available; otherwise a compact approximation.
 .apca_Lc_abs <- function(col, ref) {
-  if (requireNamespace("coloratio", quietly = TRUE)) {
-    return(abs(coloratio::apca(col, ref)))
-  }
+  # fallback to WCAG
+  return(.wcag_ratio(col, ref))
   y_txt <- .y_from_hex(col)
   y_bg  <- .y_from_hex(ref)
   if (y_bg >= y_txt) {
