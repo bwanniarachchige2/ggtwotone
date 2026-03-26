@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 `ggtwotone` is an R package that extends `ggplot2` with dual-stroke and
@@ -90,7 +91,7 @@ ggplot() +
   )
 ```
 
-<img src="man/figures/README-example1-1.png" width="100%" />
+<img src="man/figures/README-example1-1.png" alt="" width="100%" />
 
 ``` r
 library(dplyr)
@@ -163,7 +164,7 @@ ggplot() +
 #> Ignoring empty aesthetics: `colour1` and `colour2`.
 ```
 
-<img src="man/figures/README-example2-1.png" width="100%" />
+<img src="man/figures/README-example2-1.png" alt="" width="100%" />
 
 This example visualizes wind directions and speeds over a
 zone-classified terrain map using `geom_segment_dual()`.  
@@ -201,7 +202,7 @@ ggplot(df, aes(x = displ, y = hwy)) +
   )
 ```
 
-<img src="man/figures/README-example3-1.png" width="100%" />
+<img src="man/figures/README-example3-1.png" alt="" width="100%" />
 
 ``` r
 library(dplyr)
@@ -239,13 +240,13 @@ ggplot(storm_subset) +
 #> Ignoring empty aesthetics: `colour1` and `colour2`.
 ```
 
-<img src="man/figures/README-example4-1.png" width="100%" />
+<img src="man/figures/README-example4-1.png" alt="" width="100%" />
 
 ``` r
 library(ggplot2)
 library(magick)
 
-img_path   <- "micro_image.jpg"
+img_path   <- "man/figures/micro_image.jpg"
 um_per_px  <- 0.05                  # <-- calibration: micrometers per pixel
 bar_um     <- 10                    # scale bar length in micrometers
 
@@ -296,7 +297,7 @@ ggplot() +
   theme_void()
 ```
 
-<img src="man/figures/README-example 5-1.png" width="100%" />
+<img src="man/figures/README-example5-1.png" alt="" width="100%" />
 
 SEM micrograph with dual-stroke measurement overlay
 
@@ -354,7 +355,7 @@ ggplot(africa) +
   theme(panel.grid = element_blank(), axis.text = element_blank())
 ```
 
-<img src="man/figures/README-example 6-1.png" width="100%" />
+<img src="man/figures/README-example6-1.png" alt="" width="100%" />
 
 # Drawing two lines side by side
 
@@ -377,12 +378,69 @@ dframe |>
 #> Ignoring empty aesthetics: `colour1` and `colour2`.
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-example7-1.png" alt="" width="100%" />
 
 ``` r
 #  geom_point(size = 5) + 
 #  geom_point(aes(x = xmax, y = ymax), size = 5)
 ```
+
+``` r
+library(ggtwotone)
+library(magick)
+
+img_path   <- "man/figures/lea-two.png"
+um_per_px  <- 0.05                  # <-- calibration: micrometers per pixel
+bar_um     <- 10                    # scale bar length in micrometers
+
+# Load image as a background grob
+img <- magick::image_read(img_path)
+w   <- magick::image_info(img)$width
+h   <- magick::image_info(img)$height
+bg  <- grid::rasterGrob(img, width = unit(1, "npc"), height = unit(1, "npc"))
+
+
+meas <- data.frame(
+  x = 0.3218, y = 0.4507, xend = 0.7974, yend = 0.6371
+)
+
+# Compute physical length for the label
+dx_px  <- abs(meas$xend - meas$x) * w
+dy_px  <- abs(meas$yend - meas$y) * h
+len_um <- sqrt(dx_px^2 + dy_px^2) * um_per_px
+lab    <- sprintf("%.1f \u00B5m", len_um)
+
+# Midpoint for the label
+xm <- (meas$x + meas$xend)/2
+ym <- (meas$y + meas$yend)/2
+lab_df <- data.frame(x = xm, y = ym + 0.05, label = lab)
+
+#Plot
+ggplot() +
+  # background SEM image
+  annotation_custom(bg, xmin = 0, xmax = 1, ymin = 0, ymax = 1) +
+  # measurement line with dual stroke
+  geom_segment_dual(
+    data = meas,
+    aes(x = x, y = y, xend = xend, yend = yend),
+    colour1 = "#0D0D0D",
+    colour2 = "#FFFFFF",
+    linewidth = 1,
+    lineend = "round",
+    arrow = grid::arrow(ends = "both", length = unit(0.18, "in"), type = "open") 
+  ) +
+  # measurement label (contrast-aware)
+  geom_text_contrast(
+    data = lab_df,
+    aes(x = x, y = y, label = label),
+     background = "#444444",
+    size = 4.2
+  ) +
+  coord_fixed(xlim = c(0, 1), ylim = c(0, 1), expand = FALSE) +
+  theme_void()
+```
+
+<img src="man/figures/README-example8-1.png" alt="" width="100%" />
 
 # Motivation
 

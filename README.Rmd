@@ -231,11 +231,11 @@ ggplot(storm_subset) +
   theme_dark()
 ```
 
-```{r example 5}
+```{r example5}
 library(ggplot2)
 library(magick)
 
-img_path   <- "micro_image.jpg"
+img_path   <- "man/figures/micro_image.jpg"
 um_per_px  <- 0.05                  # <-- calibration: micrometers per pixel
 bar_um     <- 10                    # scale bar length in micrometers
 
@@ -288,7 +288,7 @@ ggplot() +
 
 SEM micrograph with dual-stroke measurement overlay
 
-```{r example 6, warning=FALSE, message=FALSE}
+```{r example6, warning=FALSE, message=FALSE}
 # Packages
 library(ggplot2)
 library(dplyr)
@@ -347,7 +347,7 @@ ggplot(africa) +
 
 The basic idea of drawing line segments with the `segment_dual` geom is to replace any line segment from A to B by two line segments drawn side by sidein different color hues chosen such that at least one of the coior hues has a sufficiently large (color) contrast to any background colors.
 
-```{r example 7 fig.width = 9, fig.height=3}
+```{r example7, fig.width = 9, fig.height=3}
 dframe <- data.frame(x =c(1,3,5), xmax = c(2, 4, 6), y = c(3,2,1), ymax=c(3,4,5), group = 4:6)
 dframe |> 
   ggplot(aes(x = x, xend=xmax, y = y, yend=ymax)) + 
@@ -361,11 +361,11 @@ dframe |>
 
 ```
 
-```{r example 8}
+```{r example8}
 library(ggtwotone)
 library(magick)
 
-img_path   <- "lea-two.png"
+img_path   <- "man/figures/lea-two.png"
 um_per_px  <- 0.05                  # <-- calibration: micrometers per pixel
 bar_um     <- 10                    # scale bar length in micrometers
 
