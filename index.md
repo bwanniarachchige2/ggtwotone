@@ -1,9 +1,5 @@
 # ggtwotone
 
-![](reference/figures/hex.png)
-
-[![R-CMD-check](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml)
-
 `ggtwotone` is an R package that extends `ggplot2` with dual-stroke and
 contrast-aware geoms. It helps you create clear, high-contrast
 annotations and lines that remain visible across complex or variable
@@ -20,11 +16,17 @@ backgrounds.
 - geom_curve_dual_function(): Plot mathematical or statistical functions
   as smooth dual-stroke curves
 
+- geom_path_dual(): Dual-stroke paths for connected lines across
+  multiple points
+
 - geom_text_contrast(): Automatically switches between light/dark text
   color based on background
 
 - adjust_contrast_pair(): Helper function to find contrast-boosted color
   pairs using WCAG/APCA
+
+- highlight_colors(): Generate high-contrast highlight palettes that
+  remain distinct from the background and base color
 
 ## Installation
 

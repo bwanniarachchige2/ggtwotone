@@ -49,8 +49,9 @@
 <div class="page-header"><h1 id="ggtwotone">ggtwotone<a class="anchor" aria-label="anchor" href="#ggtwotone"></a>
 </h1></div>
 <!-- badges: start -->
-<p><img src="reference/figures/hex.png" align="right" width="180"></p>
-<p><a href="https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
+
+
+<!-- badges: end -->
 <p><code>ggtwotone</code> is an R package that extends <code>ggplot2</code> with dual-stroke and contrast-aware geoms. It helps you create clear, high-contrast annotations and lines that remain visible across complex or variable backgrounds.</p>
 <div class="section level2">
 <h2 id="whats-inside">What’s Inside<a class="anchor" aria-label="anchor" href="#whats-inside"></a>
@@ -60,8 +61,10 @@
 <li><p>geom_lm_dual(): Dual-tone regression line with contrast-aware strokes</p></li>
 <li><p>geom_curve_dual(): Dual-stroke curved line annotations</p></li>
 <li><p>geom_curve_dual_function(): Plot mathematical or statistical functions as smooth dual-stroke curves</p></li>
+<li><p>geom_path_dual(): Dual-stroke paths for connected lines across multiple points</p></li>
 <li><p>geom_text_contrast(): Automatically switches between light/dark text color based on background</p></li>
 <li><p>adjust_contrast_pair(): Helper function to find contrast-boosted color pairs using WCAG/APCA</p></li>
+<li><p>highlight_colors(): Generate high-contrast highlight palettes that remain distinct from the background and base color</p></li>
 </ul>
 </div>
 <div class="section level2">
@@ -485,7 +488,13 @@ Arrow length is scaled by wind speed (in m/s), and dual-stroke styling ensures c
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/bwanniarachchige2/ggtwotone" class="external-link"><img src="https://codecov.io/gh/bwanniarachchige2/ggtwotone/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
