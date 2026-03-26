@@ -1,5 +1,9 @@
 # ggtwotone
 
+![](reference/figures/hex.png)
+
+[![R-CMD-check](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml)
+
 `ggtwotone` is an R package that extends `ggplot2` with dual-stroke and
 contrast-aware geoms. It helps you create clear, high-contrast
 annotations and lines that remain visible across complex or variable
