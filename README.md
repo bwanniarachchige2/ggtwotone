@@ -5,9 +5,12 @@
 
 <!-- badges: start -->
 
-<img src="man/figures/hex.png" align="right" width="180" />
+<img src="man/figures/hex.png" align="right" width="160" />
 
 [![R-CMD-check](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/bwanniarachchige2/ggtwotone/graph/badge.svg)](https://app.codecov.io/gh/bwanniarachchige2/ggtwotone)
+
 <!-- badges: end -->
 
 `ggtwotone` is an R package that extends `ggplot2` with dual-stroke and
@@ -26,11 +29,17 @@ backgrounds.
 - geom_curve_dual_function(): Plot mathematical or statistical functions
   as smooth dual-stroke curves
 
+- geom_path_dual(): Dual-stroke paths for connected lines across
+  multiple points
+
 - geom_text_contrast(): Automatically switches between light/dark text
   color based on background
 
 - adjust_contrast_pair(): Helper function to find contrast-boosted color
   pairs using WCAG/APCA
+
+- highlight_colors(): Generate high-contrast highlight palettes that
+  remain distinct from the background and base color
 
 ## Installation
 
