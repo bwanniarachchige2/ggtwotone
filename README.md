@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-<img src="man/figures/hex.png" align="right" width="200" />
+<img src="man/figures/hex.png" align="right" width="180" />
 
 [![R-CMD-check](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
