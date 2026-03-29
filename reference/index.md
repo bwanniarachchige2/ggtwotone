@@ -6,7 +6,7 @@
   Between Two Stroke Colors
 - [`geom_curve_dual()`](geom_curve_dual.md) : Dual-Stroke Curved Line
   Annotations
-- [`geom_dual_function()`](geom_dual_function.md) : Dual-Tone Curved
+- [`geom_function_dual()`](geom_function_dual.md) : Dual-Tone Curved
   Function Lines
 - [`geom_lm_dual()`](geom_lm_dual.md) : Dual-Tone Regression Line with
   Contrast-Aware Strokes
