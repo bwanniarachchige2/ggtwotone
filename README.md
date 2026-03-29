@@ -26,7 +26,7 @@ backgrounds.
 
 - geom_curve_dual(): Dual-stroke curved line annotations
 
-- geom_curve_dual_function(): Plot mathematical or statistical functions
+- geom_function_dual(): Plot mathematical or statistical functions
   as smooth dual-stroke curves
 
 - geom_path_dual(): Dual-stroke paths for connected lines across
@@ -73,7 +73,7 @@ bg_grob <- grid::rasterGrob(img, width = unit(1,"npc"), height = unit(1,"npc"))
 ggplot() +
   annotation_custom(bg_grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) +
 
-  geom_curve_dual_function(
+  geom_function_dual(
     fun = dnorm,
     xlim = c(-3, 6),
     base_color = "blue",
@@ -81,7 +81,7 @@ ggplot() +
     smooth = TRUE
   ) +
 
-  geom_curve_dual_function(
+  geom_function_dual(
     fun = function(x) 0.5 * exp(-abs(x - 2)),
     xlim = c(-3, 6),
     colour1 = "#FFFFCC",

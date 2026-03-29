@@ -2,7 +2,7 @@
 
 export(adjust_contrast_pair)
 export(geom_curve_dual)
-export(geom_dual_function)
+export(geom_function_dual)
 export(geom_lm_dual)
 export(geom_path_dual)
 export(geom_segment_dual)

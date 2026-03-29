@@ -104,14 +104,14 @@ GeomPathDualSide <- ggplot2::ggproto(
 #'
 #' @return A `ggplot2` layer with curved segments.
 #'
-#' @rdname geom_dual_function
+#' @rdname geom_function_dual
 #'
 #' @examples
 #' library(ggplot2)
 #'
 #' base <- ggplot() + xlim(-2.05,2.05)
 #' base +
-#'   geom_dual_function(
+#'   geom_function_dual(
 #'   fun = function(x) 0.5 * exp(-abs(x)),
 #'   xlim = c(-2, 2),
 #'   color1 = "#EEEEEE",
@@ -123,14 +123,14 @@ GeomPathDualSide <- ggplot2::ggproto(
 #'
 #'
 #' ggplot() +
-#'   geom_dual_function(
+#'   geom_function_dual(
 #'     fun = dnorm,
 #'     xlim = c(-5, 5),
 #'     base_color = "green",
 #'     linewidth = 1,
 #'     smooth = TRUE
 #'   ) +
-#'   geom_dual_function(
+#'   geom_function_dual(
 #'     fun = dt,
 #'     args = list(df = 1),
 #'     xlim = c(-5, 5),
@@ -141,7 +141,7 @@ GeomPathDualSide <- ggplot2::ggproto(
 #'   theme_dark()
 #'
 #' @export
-geom_dual_function <- function(fun,
+geom_function_dual <- function(fun,
                                      xlim = c(-3, 3),
                                      n = 701,
                                      curvature = 0,

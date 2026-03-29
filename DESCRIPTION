@@ -11,7 +11,7 @@ Description: Provides dual-stroke and contrast-aware extensions to
     complex visualizations. Includes geoms for dual-stroke segments,
     regression lines, curved annotations, function plots, and adaptive
     text: 'geom_segment_dual()', 'geom_lm_dual()', 'geom_curve_dual()',
-    'geom_dual_function()', and 'geom_text_contrast()'. Also
+    'geom_function_dual()', and 'geom_text_contrast()'. Also
     includes utility functions such as 'adjust_contrast_pair()',
     'geom_path_dual()', and 'highlight_colors()' for computing
     perceptually distinct color pairs and highlight palettes using WCAG-
