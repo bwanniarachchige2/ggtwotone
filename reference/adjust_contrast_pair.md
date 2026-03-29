@@ -47,7 +47,8 @@ A list with elements `light`, `dark`, `contrast`, and `method`.
 ## Examples
 
 ``` r
-adjust_contrast_pair("#777777", contrast = 4.5, method = "auto", background = "#000000")
+adjust_contrast_pair("#777777", contrast = 4.5,
+method = "auto", background = "#000000")
 #> $light
 #> [1] "#303030"
 #> 
@@ -61,7 +62,8 @@ adjust_contrast_pair("#777777", contrast = 4.5, method = "auto", background = "#
 #> [1] "WCAG"
 #> 
 
-adjust_contrast_pair("#66CCFF", contrast = 4.5, method = "APCA", background = "#FAFAFA")
+adjust_contrast_pair("#66CCFF", contrast = 4.5,
+method = "APCA", background = "#FAFAFA")
 #> $light
 #> [1] "#9FFCFF"
 #> 
