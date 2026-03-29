@@ -1,6 +1,6 @@
-test_that("geom_curve_dual_function works with basic function", {
+test_that("geom_dual_function works with basic function", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       colour1 = "white",
@@ -10,9 +10,9 @@ test_that("geom_curve_dual_function works with basic function", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function computes fallback contrast color", {
+test_that("geom_dual_function computes fallback contrast color", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       colour1 = "#FFFFFF",
@@ -22,9 +22,9 @@ test_that("geom_curve_dual_function computes fallback contrast color", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function works with smooth = TRUE", {
+test_that("geom_dual_function works with smooth = TRUE", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-3, 3),
       smooth = TRUE,
@@ -36,13 +36,13 @@ test_that("geom_curve_dual_function works with smooth = TRUE", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function handles invalid function args", {
+test_that("geom_dual_function handles invalid function args", {
   warnings <- character()
 
   withCallingHandlers(
     {
       ggplot2::ggplot() +
-        geom_curve_dual_function(
+        geom_dual_function(
           fun = dt,
           xlim = c(-2, 2),
           args = list(unknown = 5)
@@ -60,9 +60,9 @@ test_that("geom_curve_dual_function handles invalid function args", {
   )
 })
 
-test_that("geom_curve_dual_function works with base_color branch", {
+test_that("geom_dual_function works with base_color branch", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       base_color = "green",
@@ -72,9 +72,9 @@ test_that("geom_curve_dual_function works with base_color branch", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function accepts color1 and color2 aliases", {
+test_that("geom_dual_function accepts color1 and color2 aliases", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       color1 = "yellow",
@@ -85,9 +85,9 @@ test_that("geom_curve_dual_function accepts color1 and color2 aliases", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function uses default colors when none supplied", {
+test_that("geom_dual_function uses default colors when none supplied", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       smooth = TRUE
@@ -96,9 +96,9 @@ test_that("geom_curve_dual_function uses default colors when none supplied", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function works with smooth = FALSE", {
+test_that("geom_dual_function works with smooth = FALSE", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       smooth = FALSE,
@@ -109,9 +109,9 @@ test_that("geom_curve_dual_function works with smooth = FALSE", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function enforces ncp minimum in non-smooth mode", {
+test_that("geom_dual_function enforces ncp minimum in non-smooth mode", {
   p <- ggplot2::ggplot() +
-    geom_curve_dual_function(
+    geom_dual_function(
       fun = dnorm,
       xlim = c(-2, 2),
       smooth = FALSE,
@@ -123,8 +123,8 @@ test_that("geom_curve_dual_function enforces ncp minimum in non-smooth mode", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_curve_dual_function returns blank geom when function gives too few finite values", {
-  lyr <- geom_curve_dual_function(
+test_that("geom_dual_function returns blank geom when function gives too few finite values", {
+  lyr <- geom_dual_function(
     fun = function(x) rep(NA_real_, length(x)),
     xlim = c(-2, 2),
     smooth = TRUE

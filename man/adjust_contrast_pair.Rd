@@ -13,13 +13,15 @@ adjust_contrast_pair(
 )
 }
 \arguments{
-\item{color}{A base color, as a hex string or valid R color name (e.g., "#6699CC", "darkred").}
+\item{color}{A base color, as a hex string or valid R color name
+(e.g., "#6699CC", "darkred").}
 
 \item{contrast}{Minimum desired contrast ratio (default is 4.5).}
 
 \item{method}{Contrast method: "WCAG", "APCA", or "auto" to try both.}
 
-\item{background}{Background color, as a hex string or valid R color name (default: "#FFFFFF").}
+\item{background}{Background color, as a hex string or valid R color name
+(default: "#FFFFFF").}
 
 \item{quiet}{Logical. If TRUE, suppresses warnings.}
 }
@@ -27,11 +29,14 @@ adjust_contrast_pair(
 A list with elements \code{light}, \code{dark}, \code{contrast}, and \code{method}.
 }
 \description{
-Given a base color and a background, generate a pair of colors (light and dark)
+Given a base color and a background, generate a pair of colors
+(light and dark)
 with sufficient perceptual contrast using WCAG or APCA methods.
 }
 \examples{
-adjust_contrast_pair("#777777", contrast = 4.5, method = "auto", background = "#000000")
+adjust_contrast_pair("#777777", contrast = 4.5,
+method = "auto", background = "#000000")
 
-adjust_contrast_pair("#66CCFF", contrast = 4.5, method = "APCA", background = "#FAFAFA")
+adjust_contrast_pair("#66CCFF", contrast = 4.5,
+method = "APCA", background = "#FAFAFA")
 }

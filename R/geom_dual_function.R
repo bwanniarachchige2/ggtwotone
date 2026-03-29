@@ -23,12 +23,16 @@ GeomPathDualSide <- ggplot2::ggproto(
       if (nrow(g) < 2) next
 
       # finite-diff tangents -> normals
-      dx <- c(diff(g$x), 0); dy <- c(diff(g$y), 0)
-      dx[-1] <- (dx[-1] + dx[-length(dx)])/2
-      dy[-1] <- (dy[-1] + dy[-length(dy)])/2
-      nx <- -dy; ny <- dx
-      len <- sqrt(nx^2 + ny^2); len[len == 0] <- 1
-      nx <- nx/len; ny <- ny/len
+      dx <- c(diff(g$x), 0)
+      dy <- c(diff(g$y), 0)
+      dx[-1] <- (dx[-1] + dx[-length(dx)]) / 2
+      dy[-1] <- (dy[-1] + dy[-length(dy)]) / 2
+      nx <- -dy
+      ny <- dx
+      len <- sqrt(nx^2 + ny^2)
+      len[len == 0] <- 1
+      nx <- nx / len
+      ny <- ny / len
 
       lwd_pt      <- g$linewidth[1] * ggplot2::.pt
       off_side_pt <- lwd_pt / 5
@@ -50,7 +54,8 @@ GeomPathDualSide <- ggplot2::ggproto(
           linejoin = g$linejoin[1],
           linemitre = g$linemitre[1]
         )
-      ); gi <- gi + 1L
+      )
+      gi <- gi + 1L
 
       # top (light)
       grobs[[gi]] <- grid::polylineGrob(
@@ -63,7 +68,8 @@ GeomPathDualSide <- ggplot2::ggproto(
           linejoin = g$linejoin[1],
           linemitre = g$linemitre[1]
         )
-      ); gi <- gi + 1L
+      )
+      gi <- gi + 1L
     }
 
     grid::grobTree(do.call(grid::gList, grobs))
@@ -72,34 +78,40 @@ GeomPathDualSide <- ggplot2::ggproto(
 
 #' Dual-Tone Curved Function Lines
 #'
-#' Draws a function (e.g., density or mathematical curve) using perceptually offset dual-stroke curved line segments.
+#' Draws a function (e.g., density or mathematical curve) using perceptually
+#'  offset dual-stroke curved line segments.
 #'
 #' @param fun A function to evaluate (e.g., `dnorm`, `dt`).
 #' @param xlim Range of x-values to evaluate over (numeric vector of length 2).
 #' @param n Number of segments to compute (default: 201).
 #' @param curvature,angle,ncp Passed to underlying `geom_curve_dual` segments.
-#' @param colour1,colour2 Fixed top/bottom stroke colours. If only colour1 given,
-#'   colour2 is derived for contrast. (Aliases color1/color2 also accepted.)
-#' @param base_color Optional base color to derive a contrast pair (overrides colour1/colour2 if supplied).
+#' @param colour1,colour2 Fixed top/bottom stroke colours.
+#' If only colour1 given, colour2 is derived for contrast.
+#' (Aliases color1/color2 also accepted.)
+#' @param base_color Optional base color to derive a contrast pair
+#' (overrides colour1/colour2 if supplied).
 #' @param color1,color2 U.S.-spelling aliases for `colour1`/`colour2`. Identical
 #'   in effect; prefer `colour1`/`colour2` in code examples.
-#' @param contrast,method_contrast Passed to adjust_contrast_pair() when deriving colors.
+#' @param contrast,method_contrast Passed to adjust_contrast_pair()
+#' when deriving colors.
 #' @param linewidth Stroke width for the top line.
-#' @param args List of arguments passed to `fun` (for example, list(df = 1) for `dt`).
-#' @param smooth Use smooth dual-stroke curves (`geom_path`) instead of segmented curves (`geom_curve_dual`). Default is TRUE.
+#' @param args List of arguments passed to `fun` (for example,
+#' list(df = 1) for `dt`).
+#' @param smooth Use smooth dual-stroke curves (`geom_path`) instead of
+#' segmented curves (`geom_curve_dual`). Default is TRUE.
 #' @param alpha Overall opacity for both strokes (0–1).
 #' @param ... Additional arguments passed to `geom_curve_dual()`.
 #'
 #' @return A `ggplot2` layer with curved segments.
 #'
-#' @rdname geom_curve_dual_function
+#' @rdname geom_dual_function
 #'
 #' @examples
 #' library(ggplot2)
 #'
 #' base <- ggplot() + xlim(-2.05,2.05)
 #' base +
-#'   geom_curve_dual_function(
+#'   geom_dual_function(
 #'   fun = function(x) 0.5 * exp(-abs(x)),
 #'   xlim = c(-2, 2),
 #'   color1 = "#EEEEEE",
@@ -111,14 +123,14 @@ GeomPathDualSide <- ggplot2::ggproto(
 #'
 #'
 #' ggplot() +
-#'   geom_curve_dual_function(
+#'   geom_dual_function(
 #'     fun = dnorm,
 #'     xlim = c(-5, 5),
 #'     base_color = "green",
 #'     linewidth = 1,
 #'     smooth = TRUE
 #'   ) +
-#'   geom_curve_dual_function(
+#'   geom_dual_function(
 #'     fun = dt,
 #'     args = list(df = 1),
 #'     xlim = c(-5, 5),
@@ -129,12 +141,12 @@ GeomPathDualSide <- ggplot2::ggproto(
 #'   theme_dark()
 #'
 #' @export
-geom_curve_dual_function <- function(fun,
+geom_dual_function <- function(fun,
                                      xlim = c(-3, 3),
                                      n = 701,
-                                     curvature = 0,     # used only in non-smooth branch
-                                     angle = 90,        # ''
-                                     ncp = 5,           # ''
+                                     curvature = 0,
+                                     angle = 90,
+                                     ncp = 5,
                                      colour1 = NULL,
                                      colour2 = NULL,
                                      base_color = NULL,
@@ -155,7 +167,8 @@ geom_curve_dual_function <- function(fun,
   if (!is.null(base_color)) {
     cp <- adjust_contrast_pair(color = base_color, contrast = contrast,
                                method = method_contrast, quiet = TRUE)
-    colour1 <- cp$light; colour2 <- cp$dark
+    colour1 <- cp$light
+    colour2 <- cp$dark
   } else if (!is.null(colour1) && is.null(colour2)) {
     cp <- adjust_contrast_pair(color = colour1, contrast = contrast,
                                method = method_contrast, quiet = TRUE)
@@ -165,7 +178,6 @@ geom_curve_dual_function <- function(fun,
     if (is.null(colour2)) colour2 <- "black"
   }
 
-  # sample & evaluate
   x_vals <- seq(xlim[1], xlim[2], length.out = if (smooth) max(1001L, n) else n)
   y_vals <- tryCatch({
     do.call(fun, c(list(x_vals), args))
@@ -174,7 +186,8 @@ geom_curve_dual_function <- function(fun,
     rep(NA_real_, length(x_vals))
   })
   keep <- is.finite(x_vals) & is.finite(y_vals)
-  x_vals <- x_vals[keep]; y_vals <- y_vals[keep]
+  x_vals <- x_vals[keep]
+  y_vals <- y_vals[keep]
   if (length(x_vals) < 2L) return(ggplot2::geom_blank())
 
   if (isTRUE(smooth)) {

@@ -120,7 +120,8 @@ GeomSegmentDual <- ggplot2::ggproto(
 #' @param colour1 Colour for one side of the dual stroke.
 #' @param colour2 Colour for the other side of the dual stroke.
 #' @param linewidth Width of the total dual stroke (in mm).
-#' @param aspect_ratio Aspect ratio hint (currently unused by the grob logic but reserved for future layout tuning).
+#' @param aspect_ratio Aspect ratio hint (currently unused by the grob logic
+#' but reserved for future layout tuning).
 #'
 #'
 #' @examples
@@ -193,7 +194,8 @@ geom_segment_dual <- function(mapping = NULL, data = NULL,
                               colour1 = NULL, colour2 = NULL, linewidth = NULL,
                               lineend = "butt", aspect_ratio = 1,
                               ..., arrow = NULL, arrow.fill = NULL,
-                              na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
+                              na.rm = FALSE, show.legend = NA,
+                              inherit.aes = TRUE) {
   ggplot2::layer(
     geom = GeomSegmentDual,
     mapping = mapping,

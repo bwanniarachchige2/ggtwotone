@@ -102,11 +102,11 @@ lists which parameters it can accept.
 
 \item{ncp}{Number of control points (default: 5).}
 
-\item{base_color}{Base Color to derive the dual-tone pair from.}
+\item{base_color}{Base color to derive the dual-tone pair from.}
 
 \item{contrast}{Minimum contrast ratio to aim for (default is 4.5).}
 
-\item{method_contrast}{Contrast algorithm to use ("WCAG", "APCA", or "auto")}
+\item{method_contrast}{Contrast algorithm to use ("WCAG", "APCA", or "auto").}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
@@ -125,8 +125,9 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 }
 \description{
-\code{geom_curve_dual()} draws a dual-tone curved line using two strokes (light/dark),
-with slight perpendicular offset to ensure visibility across mixed backgrounds.
+\code{geom_curve_dual()} draws a dual-tone curved line using two strokes
+(light/dark), with slight perpendicular offset to ensure visibility
+across mixed backgrounds.
 }
 \examples{
 library(ggplot2)
@@ -135,27 +136,33 @@ library(ggplot2)
 ggplot() +
   geom_curve_dual(
     aes(x = 1, y = 1, xend = 4, yend = 4),
-    curvature = 0.4, linewidth = 2
+    curvature = 0.4,
+    linewidth = 2
   ) +
   theme_void() +
   theme(panel.background = element_rect(fill = "black"))
 
-b <- ggplot(mtcars, aes(wt, mpg)) + geom_point(size = 2) + theme_dark()
-df <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
-b + geom_curve_dual(
-    data = df,
-    mapping = aes(x = x1, y = y1, xend = x2, yend = y2),
-    curvature = -0.2,
-    linewidth = 2, base_color = "green"
-  )
+b <- ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(size = 2) +
+  theme_dark()
 
+df <- data.frame(x1 = 2.62, x2 = 3.57, y1 = 21.0, y2 = 15.0)
+
+b + geom_curve_dual(
+  data = df,
+  mapping = aes(x = x1, y = y1, xend = x2, yend = y2),
+  curvature = -0.2,
+  linewidth = 2,
+  base_color = "green"
+)
 
 # Sine wave style dual-stroke curve with points
 ggplot() +
   geom_curve_dual(
     aes(x = 2, y = 1, xend = 4, yend = 3),
     curvature = 0.3,
-    linewidth = 2, base_color = "red"
+    linewidth = 2,
+    base_color = "red"
   ) +
   geom_point(aes(x = 2, y = 1), colour = "red", size = 3) +
   geom_point(aes(x = 4, y = 3), colour = "blue", size = 3) +
@@ -166,17 +173,22 @@ tile_df <- expand.grid(x = 1:6, y = 1:4)
 tile_df$fill <- gray.colors(nrow(tile_df), start = 0, end = 1)
 
 ggplot() +
-  geom_tile(data = tile_df, aes(x = x, y = y, fill = fill), width = 1, height = 1) +
+  geom_tile(
+    data = tile_df,
+    aes(x = x, y = y, fill = fill),
+    width = 1,
+    height = 1
+  ) +
   geom_curve_dual(
     data = data.frame(x = 1, y = 1, xend = 6, yend = 4),
     aes(x = x, y = y, xend = xend, yend = yend),
-    colour1 = "white", colour2 = "black",
+    colour1 = "white",
+    colour2 = "black",
     curvature = 0.4,
     linewidth = 2
   ) +
   scale_fill_identity() +
   theme_void() +
   coord_fixed()
-
 
 }

@@ -34,7 +34,8 @@ geom_lm_dual(
 
 \item{...}{Additional parameters passed to \code{geom_segment_dual()}.}
 
-\item{linewidth}{Total visual line thickness in mm (both side strokes together).}
+\item{linewidth}{Total visual line thickness in mm
+(both side strokes together).}
 
 \item{show.legend}{Whether to show legend.}
 }
@@ -42,7 +43,8 @@ geom_lm_dual(
 A \code{ggplot2} layer containing the dual-stroke regression line.
 }
 \description{
-Draws a regression line with perceptually distinct dual-stroke coloring for improved visibility.
+Draws a regression line with perceptually distinct dual-stroke coloring
+for improved visibility.
 }
 \examples{
 library(ggplot2)

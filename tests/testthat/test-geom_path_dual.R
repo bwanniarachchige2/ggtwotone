@@ -3,7 +3,7 @@ test_that("geom_path_dual basic rendering", {
   skip_on_cran()
 
   p1 <- ggplot(mtcars,
-              aes(x = wt, y = mpg, xend = wt + 0.5, yend = mpg + 2)) +
+            aes(x = wt, y = mpg, xend = wt + 0.5, yend = mpg + 2)) +
     geom_path_dual(
       colour1 = "black",
       colour2 = "white",

@@ -34,163 +34,189 @@ highlight_colors(
 
 \item{base_color}{Hex/R color used for non-highlight elements.}
 
-\item{contrast_bg}{Required contrast vs background (WCAG ratio or APCA Lc depending on backend). Default 4.5.}
+\item{contrast_bg}{Required contrast vs background (WCAG ratio or APCA Lc
+depending on backend). Default 4.5.}
 
-\item{contrast_base}{Required contrast vs base_color (set 0 to skip). Default 3.0.}
+\item{contrast_base}{Required contrast vs base_color (set 0 to skip).
+Default 3.0.}
 
-\item{min_deltaE}{Minimum CIEDE2000 separation between selected colors. Default 35.}
+\item{min_deltaE}{Minimum CIEDE2000 separation between selected colors.
+Default 35.}
 
-\item{hue_targets}{"auto", "anchored", "spread", or numeric vector of hue angles (0-360).}
+\item{hue_targets}{"auto", "anchored", "spread", or numeric vector of
+hue angles (0-360).}
 
-\item{anchor_band}{Degrees around base hue to sample when hue_targets="anchored". Default 180.}
+\item{anchor_band}{Degrees around base hue to sample when
+\code{hue_targets = "anchored"}. Default 180.}
 
-\item{hcl_L_range}{Allowed HCL lightness range. Default c(25, 75).}
+\item{hcl_L_range}{Allowed HCL lightness range. Default \code{c(25, 75)}.}
 
-\item{hcl_C_range}{Allowed HCL chroma range. Default c(40, 90).}
+\item{hcl_C_range}{Allowed HCL chroma range. Default \code{c(40, 90)}.}
 
-\item{min_hue_sep}{Minimum separation in degrees between chosen hues. Default 35.}
+\item{min_hue_sep}{Minimum separation in degrees between chosen hues.
+Default 35.}
 
-\item{n_candidates}{Number of random candidates before selection. Default 100000.}
+\item{n_candidates}{Number of random candidates before selection.
+Default 100000.}
 
-\item{relax}{Progressively relax min_hue_sep then min_deltaE if infeasible. Default TRUE.}
+\item{relax}{Progressively relax \code{min_hue_sep} then \code{min_deltaE}
+if infeasible. Default TRUE.}
 
 \item{quiet}{Suppress relaxation messages. Default TRUE.}
 
-\item{repel_from}{Character vector among c("background","base") to avoid those hue neighborhoods.}
+\item{repel_from}{Character vector among \code{c("background", "base")}
+to avoid those hue neighborhoods.}
 
-\item{repel_band}{Degrees excluded around the repelled hues (+/- band). Default 50.}
+\item{repel_band}{Degrees excluded around the repelled hues
+(\verb{+/-} band). Default 50.}
 
-\item{auto_bias}{Logical; if TRUE and bg/base are far apart, bias sampling toward opponent hues.}
+\item{auto_bias}{Logical; if TRUE and bg/base are far apart,
+bias sampling toward opponent hues.}
 
-\item{bias_width}{Width (degrees) of opponent sampling window when auto_bias applies. Default 120.}
+\item{bias_width}{Width (degrees) of opponent sampling window when
+\code{auto_bias} applies. Default 120.}
 
-\item{bias_frac}{Fraction of samples drawn from the biased window when auto_bias applies. Default 0.8.}
+\item{bias_frac}{Fraction of samples drawn from the biased window when
+\code{auto_bias} applies. Default 0.8.}
 
-\item{contrast_method}{"option" (use global option, default) or "auto" (pick WCAG/APCA per polarity).}
+\item{contrast_method}{\code{"option"} (use global option, default)
+or \code{"auto"} (pick WCAG/APCA per polarity).}
 }
 \value{
-Character vector of hex colors (length <= n) with an \code{info} attribute.
+Character vector of hex colors (length <= n) with
+an \code{info} attribute.
 }
 \description{
 Changes from your previous version:
 \itemize{
 \item Global hue sampling by default (\code{hue_targets = "auto"})
 \item Optional hue repulsion near background/base (\code{repel_from}, \code{repel_band})
-\item Smart auto-bias toward opponent hues when bg & base are far apart (\code{auto_bias})
-\item NEW: \code{contrast_method="auto"} picks APCA for dark-on-light and WCAG for light-on-dark
+\item Smart auto-bias toward opponent hues when bg & base are far apart
+(\code{auto_bias})
+\item NEW: \code{contrast_method = "auto"} picks APCA for dark-on-light
+and WCAG for light-on-dark
 }
 }
 \details{
 Creates n colors by:
 (1) sampling HCL colors (global or biased),
-(2) filtering by WCAG/APCA contrast vs \code{background} (and optionally vs \code{base_color}),
-(3) selecting a maximally separated subset by ΔE2000 and minimum hue spacing.
+(2) filtering by WCAG/APCA contrast vs \code{background}
+(and optionally vs \code{base_color}),
+(3) selecting a maximally separated subset by ΔE2000 and minimum hue
+spacing.
 
-Set \code{contrast_base = 0} to ignore base contrast (keeps only background contrast).
+Set \code{contrast_base = 0} to ignore base contrast
+(keeps only background contrast).
 Use \code{hue_targets = "anchored"} to sample around \code{base_color} (legacy-like).
 
 NOTE: Switch contrast backend via:
-options(ggtwotone.contrast_method = "WCAG")  # ratio scale, e.g. 4.5
-options(ggtwotone.contrast_method = "APCA")  # Lc scale, e.g. 60
-OR pass contrast_method="auto" to pick per polarity.
+\code{options(ggtwotone.contrast_method = "WCAG")}
+\code{options(ggtwotone.contrast_method = "APCA")}
+or pass \code{contrast_method = "auto"} to pick per polarity.
 }
 \examples{
 highlight_colors(
- n = 4,
- background = "#222222",
- base_color = "#eeeeee")
+  n = 4,
+  background = "#222222",
+  base_color = "#eeeeee"
+)
 
-# ---------------------------------------------------------------
-# dark base on light background
-# ---------------------------------------------------------------
 if (requireNamespace("ggplot2", quietly = TRUE)) {
   library(ggplot2)
 
-  bg_hex   <- "#F7F7F7"   # light background
-  base_hex <- "#222222"   # dark base
+  bg_hex <- "#F7F7F7"
+  base_hex <- "#222222"
 
   set.seed(7)
   pal <- highlight_colors(
     n = 3,
-    background     = bg_hex,
-    base_color     = base_hex,
-    contrast_method= "auto",   # automatically selects APCA
-    contrast_bg    = 60,
-    contrast_base  = 45,
+    background = bg_hex,
+    base_color = base_hex,
+    contrast_method = "auto",
+    contrast_bg = 60,
+    contrast_base = 45,
     quiet = TRUE
   )
 
-  print(pal)
-
-  classes <- c("compact","suv","midsize","pickup","minivan","2seater")
-  counts  <- c(25, 38, 42, 31, 10, 5)
-  highlight_classes <- c("compact","suv","midsize")
+  classes <- c("compact", "suv", "midsize", "pickup", "minivan", "2seater")
+  counts <- c(25, 38, 42, 31, 10, 5)
+  highlight_classes <- c("compact", "suv", "midsize")
 
   col_map <- setNames(rep(base_hex, length(classes)), classes)
   col_map[highlight_classes] <- pal
 
-  df <- data.frame(class = classes, count = counts, fill = unname(col_map[classes]))
+  df <- data.frame(
+    class = classes,
+    count = counts,
+    fill = unname(col_map[classes])
+  )
 
   ggplot(df, aes(x = reorder(class, count), y = count, fill = fill)) +
     geom_col(width = 0.8) +
     scale_fill_identity() +
     coord_flip() +
-    labs(title = "Dark base on light background (auto -> APCA)",
-         x = NULL, y = "Count") +
+    labs(
+      title = "Dark base on light background (auto -> APCA)",
+      x = NULL,
+      y = "Count"
+    ) +
     theme_minimal(base_size = 12) +
     theme(
       panel.grid.major.y = element_blank(),
-      plot.background  = element_rect(fill = bg_hex, color = NA),
+      plot.background = element_rect(fill = bg_hex, color = NA),
       panel.background = element_rect(fill = bg_hex, color = NA),
       plot.title = element_text(color = base_hex, hjust = 0.5),
-      axis.text  = element_text(color = base_hex)
+      axis.text = element_text(color = base_hex)
     )
 }
 
-# ---------------------------------------------------------------
-# light base on dark background
-# ---------------------------------------------------------------
 if (requireNamespace("ggplot2", quietly = TRUE)) {
   library(ggplot2)
 
-  bg_hex   <- "#222222"   # dark background
-  base_hex <- "#EEEEEE"   # light base
+  bg_hex <- "#222222"
+  base_hex <- "#EEEEEE"
 
   set.seed(7)
   pal <- highlight_colors(
     n = 3,
-    background     = bg_hex,
-    base_color     = base_hex,
-    contrast_method= "auto",   # automatically selects WCAG
-    contrast_bg    = 4.5,
-    contrast_base  = 3.0,
+    background = bg_hex,
+    base_color = base_hex,
+    contrast_method = "auto",
+    contrast_bg = 4.5,
+    contrast_base = 3.0,
     quiet = TRUE
   )
 
-  print(pal)
-
-  classes <- c("compact","suv","midsize","pickup","minivan","2seater")
-  counts  <- c(25, 38, 42, 31, 10, 5)
-  highlight_classes <- c("compact","suv","midsize")
+  classes <- c("compact", "suv", "midsize", "pickup", "minivan", "2seater")
+  counts <- c(25, 38, 42, 31, 10, 5)
+  highlight_classes <- c("compact", "suv", "midsize")
 
   col_map <- setNames(rep(base_hex, length(classes)), classes)
   col_map[highlight_classes] <- pal
 
-  df <- data.frame(class = classes, count = counts, fill = unname(col_map[classes]))
+  df <- data.frame(
+    class = classes,
+    count = counts,
+    fill = unname(col_map[classes])
+  )
 
   ggplot(df, aes(x = reorder(class, count), y = count, fill = fill)) +
     geom_col(width = 0.8) +
     scale_fill_identity() +
     coord_flip() +
-    labs(title = "Light base on dark background (auto -> WCAG)",
-         x = NULL, y = "Count") +
+    labs(
+      title = "Light base on dark background (auto -> WCAG)",
+      x = NULL,
+      y = "Count"
+    ) +
     theme_minimal(base_size = 12) +
     theme(
       panel.grid.major.y = element_blank(),
-      plot.background  = element_rect(fill = bg_hex, color = NA),
+      plot.background = element_rect(fill = bg_hex, color = NA),
       panel.background = element_rect(fill = bg_hex, color = NA),
       plot.title = element_text(color = base_hex, hjust = 0.5),
-      axis.text  = element_text(color = base_hex)
+      axis.text = element_text(color = base_hex)
     )
 }
+
 }

@@ -1,6 +1,7 @@
 #' Dual-Tone Regression Line with Contrast-Aware Strokes
 #'
-#' Draws a regression line with perceptually distinct dual-stroke coloring for improved visibility.
+#' Draws a regression line with perceptually distinct dual-stroke coloring
+#' for improved visibility.
 #'
 #' @param data A data frame containing the variables.
 #' @param mapping Aesthetic mapping, must include `x` and `y`.
@@ -9,7 +10,8 @@
 #' @param base_color Base color to derive the dual-tone pair from.
 #' @param contrast Minimum contrast ratio to aim for (default is 4.5).
 #' @param method_contrast Contrast algorithm to use ("WCAG", "APCA", or "auto").
-#' @param linewidth Total visual line thickness in mm (both side strokes together).
+#' @param linewidth Total visual line thickness in mm
+#' (both side strokes together).
 #' @param show.legend Whether to show legend.
 #' @param ... Additional parameters passed to `geom_segment_dual()`.
 #'
@@ -70,7 +72,7 @@ geom_lm_dual <- function(data, mapping, method = "lm", formula = y ~ x,
                          linewidth = 1, show.legend = NA) {
 
   x_var <- rlang::as_name(mapping$x)
-  y_var <- rlang::as_name(mapping$y)
+  #y_var <- rlang::as_name(mapping$y)
 
   model <- stats::lm(formula, data = data)
   x_range <- range(data[[x_var]], na.rm = TRUE)
@@ -78,7 +80,8 @@ geom_lm_dual <- function(data, mapping, method = "lm", formula = y ~ x,
   names(new_data) <- x_var
   y_pred <- predict(model, newdata = new_data)
 
-  cp <- adjust_contrast_pair(base_color, contrast = contrast, method = method_contrast)
+  cp <- adjust_contrast_pair(base_color, contrast = contrast,
+                             method = method_contrast)
 
   reg_segment <- data.frame(
     x = x_range[1],

@@ -137,7 +137,8 @@ test_that("geom_segment_dual handles arrows and arrow.fill", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("two_colour_segment_grob returns empty gTree for zero-length segment", {
+test_that("two_colour_segment_grob returns empty gTree for
+          zero-length segment", {
   g <- two_colour_segment_grob(
     x0 = 0.5, y0 = 0.5, x1 = 0.5, y1 = 0.5,
     col1 = "black", col2 = "white",

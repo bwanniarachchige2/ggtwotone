@@ -85,7 +85,8 @@ test_that("two_colour_path_grob returns empty gTree for zero-length path", {
   expect_equal(length(g$children), 0)
 })
 
-test_that("two_colour_path_grob returns grob with two children for valid path", {
+test_that("two_colour_path_grob returns grob with
+          two children for valid path", {
   g <- two_colour_path_grob(
     x = c(0.1, 0.5, 0.9),
     y = c(0.2, 0.8, 0.3),

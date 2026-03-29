@@ -77,7 +77,8 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 
 \item{lineend}{Line end style (round, butt, square).}
 
-\item{aspect_ratio}{Aspect ratio hint (currently unused by the grob logic but reserved for future layout tuning).}
+\item{aspect_ratio}{Aspect ratio hint (currently unused by the grob logic
+but reserved for future layout tuning).}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
