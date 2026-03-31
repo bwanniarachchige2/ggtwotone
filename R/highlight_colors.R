@@ -22,6 +22,13 @@
   (max(y1, y2) + 0.05) / (min(y1, y2) + 0.05)
 }
 
+# Vectorized WCAG helper
+.wcag_ratio_vec <- function(cols, ref) {
+  y1 <- .y_from_hex(cols)
+  y2 <- .y_from_hex(ref)
+  (pmax(y1, y2) + 0.05) / (pmin(y1, y2) + 0.05)
+}
+
 # APCA absolute Lc (0..~106). Uses coloratio::apca if available;
 # otherwise a compact approximation.
 .apca_Lc_abs <- function(col, ref) {
@@ -40,6 +47,12 @@
   abs(Lc)
 }
 
+# Vectorized APCA helper
+.apca_Lc_abs_vec <- function(cols, ref) {
+  # fallback to WCAG
+  .wcag_ratio_vec(cols, ref)
+}
+
 # Unified contrast entry that highlight_colors() will call internally
 .contrast_value <- function(col, ref) {
   method <- getOption("ggtwotone.contrast_method", "WCAG")
@@ -48,6 +61,17 @@
     .apca_Lc_abs(col, ref)
   } else {
     .wcag_ratio(col, ref)
+  }
+}
+
+# Vectorized unified contrast entry
+.contrast_value_vec <- function(cols, ref) {
+  method <- getOption("ggtwotone.contrast_method", "WCAG")
+
+  if (identical(toupper(method), "APCA")) {
+    .apca_Lc_abs_vec(cols, ref)
+  } else {
+    .wcag_ratio_vec(cols, ref)
   }
 }
 
@@ -348,10 +372,6 @@ highlight_colors <- function(
   cur_min_deltaE <- min_deltaE
   cur_min_hsep <- min_hue_sep
 
-  wcag_contrast_one <- function(col, ref) {
-    .contrast_value(col, ref)
-  }
-
   circ_dist <- function(a, b) {
     d <- abs(a - b) %% 360
     pmin(d, 360 - d)
@@ -480,22 +500,10 @@ highlight_colors <- function(
 
     for (cb in base_steps) {
       for (cg in bg_steps) {
-        keep_bg <- vapply(
-          cand_hex0,
-          function(hx) {
-            wcag_contrast_one(hx, background) >= cg
-          },
-          logical(1)
-        )
+        keep_bg <- .contrast_value_vec(cand_hex0, background) >= cg
 
         if (cb > 0) {
-          keep_base <- vapply(
-            cand_hex0,
-            function(hx) {
-              wcag_contrast_one(hx, base_color) >= cb
-            },
-            logical(1)
-          )
+          keep_base <- .contrast_value_vec(cand_hex0, base_color) >= cb
           keep <- keep_bg & keep_base
         } else {
           keep <- keep_bg
@@ -587,22 +595,10 @@ highlight_colors <- function(
 
   for (cb in base_steps) {
     for (cg in bg_steps) {
-      keep_bg <- vapply(
-        cand_hex0,
-        function(hx) {
-          wcag_contrast_one(hx, background) >= cg
-        },
-        logical(1)
-      )
+      keep_bg <- .contrast_value_vec(cand_hex0, background) >= cg
 
       if (cb > 0) {
-        keep_base <- vapply(
-          cand_hex0,
-          function(hx) {
-            wcag_contrast_one(hx, base_color) >= cb
-          },
-          logical(1)
-        )
+        keep_base <- .contrast_value_vec(cand_hex0, base_color) >= cb
         keep <- keep_bg & keep_base
       } else {
         keep <- keep_bg
@@ -653,13 +649,7 @@ highlight_colors <- function(
     )[1]
   }
 
-  contr_bg_vals <- vapply(
-    cand_hex,
-    function(hx) {
-      wcag_contrast_one(hx, background)
-    },
-    numeric(1)
-  )
+  contr_bg_vals <- .contrast_value_vec(cand_hex, background)
 
   chosen <- which.max(contr_bg_vals)
 
