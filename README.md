@@ -1,11 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggtwotone
+# ggtwotone <a href="https://bwanniarachchige2.github.io/ggtwotone/"><img src="man/figures/hex.png" align="right" width="160" /></a>
 
 <!-- badges: start -->
-
-<img src="man/figures/hex.png" align="right" width="160" />
 
 [![R-CMD-check](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bwanniarachchige2/ggtwotone/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
