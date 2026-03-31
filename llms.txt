@@ -1,4 +1,4 @@
-# ggtwotone
+# ggtwotone [![](reference/figures/hex.png)](https://bwanniarachchige2.github.io/ggtwotone/)
 
 `ggtwotone` is an R package that extends `ggplot2` with dual-stroke and
 contrast-aware geoms. It helps you create clear, high-contrast
