@@ -17,6 +17,7 @@ geom_curve_dual(
   angle = NULL,
   ncp = NULL,
   base_color = NULL,
+  base_colour = NULL,
   contrast = 4.5,
   method_contrast = "WCAG",
   na.rm = FALSE,
@@ -143,7 +144,7 @@ geom_curve_dual(
 
   Number of control points (default: 5).
 
-- base_color:
+- base_color, base_colour:
 
   Base color to derive the dual-tone pair from.
 

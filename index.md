@@ -34,6 +34,7 @@ You can install the development version of ggtwotone from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("bwanniarachchige2/ggtwotone")
 ```
@@ -43,6 +44,7 @@ pak::pak("bwanniarachchige2/ggtwotone")
 These are some examples which show you how to use the package:
 
 ``` r
+
 library(ggtwotone) # automatically loads ggplot2 if it is not active
 #> Loading required package: ggplot2
 library(magick)
@@ -92,6 +94,7 @@ ggplot() +
 ![](reference/figures/README-example1-1.png)
 
 ``` r
+
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -170,6 +173,7 @@ ensures clear visibility across contrasting terrain types such as
 desert, forest, sea, and urban zones.
 
 ``` r
+
 library(ggplot2)
 library(ggtwotone)
 
@@ -202,6 +206,7 @@ ggplot(df, aes(x = displ, y = hwy)) +
 ![](reference/figures/README-example3-1.png)
 
 ``` r
+
 library(dplyr)
 
 # Sample from real storm data
@@ -238,6 +243,7 @@ ggplot(storm_subset) +
 ![](reference/figures/README-example4-1.png)
 
 ``` r
+
 library(ggplot2)
 library(magick)
 
@@ -297,6 +303,7 @@ ggplot() +
 SEM micrograph with dual-stroke measurement overlay
 
 ``` r
+
 # Packages
 library(ggplot2)
 library(dplyr)
