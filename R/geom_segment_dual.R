@@ -196,6 +196,18 @@ geom_segment_dual <- function(mapping = NULL, data = NULL,
                               ..., arrow = NULL, arrow.fill = NULL,
                               na.rm = FALSE, show.legend = NA,
                               inherit.aes = TRUE) {
+  dots <- list(...)
+
+  if ("color1" %in% names(dots)) {
+    if (is.null(colour1)) colour1 <- dots$color1
+    dots$color1 <- NULL
+  }
+
+  if ("color2" %in% names(dots)) {
+    if (is.null(colour2)) colour2 <- dots$color2
+    dots$color2 <- NULL
+  }
+
   ggplot2::layer(
     geom = GeomSegmentDual,
     mapping = mapping,
@@ -204,15 +216,17 @@ geom_segment_dual <- function(mapping = NULL, data = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
-      arrow = arrow,
-      arrow.fill = arrow.fill,
-      lineend = lineend,
-      linewidth = linewidth,
-      colour1 = colour1,
-      colour2 = colour2,
-      na.rm = na.rm,
-      ...
+    params = c(
+      list(
+        arrow = arrow,
+        arrow.fill = arrow.fill,
+        lineend = lineend,
+        linewidth = linewidth,
+        colour1 = colour1,
+        colour2 = colour2,
+        na.rm = na.rm
+      ),
+      dots
     )
   )
 }

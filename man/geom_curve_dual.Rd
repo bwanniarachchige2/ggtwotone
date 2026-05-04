@@ -14,6 +14,7 @@ geom_curve_dual(
   angle = NULL,
   ncp = NULL,
   base_color = NULL,
+  base_colour = NULL,
   contrast = 4.5,
   method_contrast = "WCAG",
   na.rm = FALSE,
@@ -102,7 +103,7 @@ lists which parameters it can accept.
 
 \item{ncp}{Number of control points (default: 5).}
 
-\item{base_color}{Base color to derive the dual-tone pair from.}
+\item{base_color, base_colour}{Base color to derive the dual-tone pair from.}
 
 \item{contrast}{Minimum contrast ratio to aim for (default is 4.5).}
 

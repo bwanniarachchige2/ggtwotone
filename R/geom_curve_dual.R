@@ -188,7 +188,7 @@ GeomCurveDual <- ggplot2::ggproto(
 #' across mixed backgrounds.
 #'
 #' @inheritParams ggplot2::geom_curve
-#' @param base_color Base color to derive the dual-tone pair from.
+#' @param base_color,base_colour Base color to derive the dual-tone pair from.
 #' @param contrast Minimum contrast ratio to aim for (default is 4.5).
 #' @param method_contrast Contrast algorithm to use ("WCAG", "APCA", or "auto").
 #' @param curvature Bend of the curve (positive = counter-clockwise).
@@ -270,12 +270,26 @@ geom_curve_dual <- function(
     angle = NULL,
     ncp = NULL,
     base_color = NULL,
+    base_colour = NULL,
     contrast = 4.5,
     method_contrast = "WCAG",
     na.rm = FALSE,
     show.legend = NA,
     inherit.aes = TRUE
 ) {
+  dots <- list(...)
+
+  if ("base_colour" %in% names(dots)) {
+    if (is.null(base_color)) {
+      base_color <- dots$base_colour
+    }
+    dots$base_colour <- NULL
+  }
+
+  if (!is.null(base_colour) && is.null(base_color)) {
+    base_color <- base_colour
+  }
+
   if (!is.null(base_color)) {
     cp <- adjust_contrast_pair(
       color = base_color,
@@ -317,9 +331,11 @@ geom_curve_dual <- function(
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
-      na.rm = na.rm,
-      ...
+    params = c(
+      list(
+        na.rm = na.rm
+      ),
+      dots
     )
   )
 }
