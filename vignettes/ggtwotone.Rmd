@@ -1,0 +1,78 @@
+---
+title: "Getting Started with ggtwotone"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with ggtwotone}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(ggtwotone)
+library(ggplot2)
+```
+
+# Introduction
+
+`ggtwotone` extends **ggplot2** with dual-stroke and contrast-aware geoms
+designed to improve the visibility of graphical annotations on complex
+backgrounds.
+
+The package is particularly useful for scientific figures containing
+images, maps, microscopy data, and heatmaps, where standard single-color
+annotations may become difficult to distinguish.
+
+## Design Philosophy
+
+The package follows three guiding principles:
+
+- Improve visibility across heterogeneous backgrounds.
+- Support accessibility through contrast-aware color selection.
+- Integrate naturally with existing `ggplot2` workflows.
+
+## Main Functions
+
+| Function | Description |
+|----------|-------------|
+| `geom_segment_dual()` | Dual-stroke line segments |
+| `geom_curve_dual()` | Dual-stroke curved annotations |
+| `geom_path_dual()` | Dual-stroke paths |
+| `geom_function_dual()` | Dual-stroke mathematical functions |
+| `geom_lm_dual()` | Dual-tone regression lines |
+| `geom_text_contrast()` | Contrast-aware text labels |
+| `highlight_colors()` | High-contrast highlight palettes |
+| `adjust_contrast_pair()` | Contrast-aware color utilities |
+
+## Typical Applications
+
+`ggtwotone` is particularly useful for:
+
+- microscopy and biomedical imaging;
+- thematic maps and spatial visualizations;
+- heatmaps;
+- annotated photographs;
+- scientific figures intended for publication;
+- graphics that must remain readable in grayscale.
+
+## Documentation
+
+Detailed examples and complete function documentation are available in:
+
+- the package reference website;
+- the individual help pages (`?geom_segment_dual`);
+- the package README.
+
+## Citation
+
+If you use `ggtwotone` in published work, please cite the package using
+
+``` r
+citation("ggtwotone")
+```
