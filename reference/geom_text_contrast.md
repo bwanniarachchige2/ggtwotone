@@ -204,7 +204,7 @@ library(dplyr)
 library(scales)
 
 set.seed(1)
-classes <-c("Cat", "Dog", "Rabit")
+classes <- c("Cat", "Dog", "Rabit")
 cm <- expand.grid(True = classes, Predicted = classes)
 cm$Count <- sample(5:200, size = nrow(cm), replace = TRUE)
 
@@ -220,7 +220,7 @@ cm$label <- sprintf("%.1f%%", 100 * cm$Accuracy)
 
 ggplot(cm, aes(Predicted, True)) +
   geom_tile(aes(fill = Accuracy), color = "white", linewidth = 0.8) +
-    geom_text_contrast(
+  geom_text_contrast(
     aes(label = label),
     background = cm$fill_hex,
     base_colour = "#004488",

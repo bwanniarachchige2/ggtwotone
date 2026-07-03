@@ -138,8 +138,8 @@ Character vector of hex colors (length \<= n) with an `info` attribute.
 
 Creates n colors by: (1) sampling HCL colors (global or biased), (2)
 filtering by WCAG/APCA contrast vs `background` (and optionally vs
-`base_color`), (3) selecting a maximally separated subset by ΔE2000 and
-minimum hue spacing.
+`base_color`), (3) selecting a maximally separated subset by \\\Delta
+E\_{2000}\\ and minimum hue spacing.
 
 Set `contrast_base = 0` to ignore base contrast (keeps only background
 contrast). Use `hue_targets = "anchored"` to sample around `base_color`
