@@ -130,67 +130,89 @@ background, while labels automatically adapt to maintain contrast.
 
 # Additional Example
 
-The following example illustrates automatic contrast-aware labeling on a
-thematic map.
+The following example demonstrates `geom_text_contrast()` on a confusion
+matrix generated from a linear discriminant analysis (LDA) classifier
+fitted to the `iris` data. Text colours are selected automatically to
+maintain readability against tiles with different background colours.
 
 ``` r
-# Packages
-library(ggplot2)
 library(dplyr)
-library(sf)
+library(ggplot2)
+library(ggtwotone)
 library(scales)
-library(rnaturalearth)
-library(rnaturalearthdata)
+library(MASS)
 
-# Africa polygons
-africa <- rnaturalearth::ne_countries(
-  continent = "Africa", scale = "medium", returnclass = "sf"
+set.seed(1)
+
+# Fit LDA classifier on iris
+iris_lda <- MASS::lda(
+  Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  data = iris
 )
 
-# Simple variable (simulate GDP per capita, k USD)
-set.seed(1)
-africa$gdp_pc <- runif(nrow(africa), min = 1, max = 30)
+iris_pred <- predict(iris_lda)$class
 
-# Palette + per-country HEX for contrast
-pal <- c("#0C2C84", "#41B6C4", "#A1DAB4", "#FFFFCC", "#FDAE61", "#D73027")
-col_fun <- scales::col_numeric(palette = pal,
-                               domain = range(africa$gdp_pc, na.rm = TRUE))
-africa$fill_hex <- col_fun(africa$gdp_pc)
+# Build confusion matrix
+classes <- levels(iris$Species)
 
-# Label positions
-labels <- africa %>%
+cm <- table(
+  True = iris$Species,
+  Predicted = iris_pred
+) |>
+  as.data.frame()
+
+cm <- cm |>
+  group_by(True) |>
   mutate(
-    point = sf::st_point_on_surface(geometry),
-    lon   = sf::st_coordinates(point)[, 1],
-    lat   = sf::st_coordinates(point)[, 2],
-    area  = as.numeric(sf::st_area(geometry)),
-    code  = iso_a3
-  ) %>%
-  dplyr::slice_max(area, n = 20)
+    Accuracy = Freq / sum(Freq),
+    label = sprintf("%.1f%%", 100 * Accuracy)
+  )
+
+# Palette and background colors for text contrast
+pal <- c("#313695", "#74add1", "#fdae61", "#fee08b")
+
+col_fun <- scales::col_numeric(
+  palette = pal,
+  domain = c(0, 1)
+)
+
+cm$fill_hex <- col_fun(cm$Accuracy)
 
 # Plot
-ggplot(africa) +
-  geom_sf(aes(fill = gdp_pc), color = "white", linewidth = 0.2) +
+ggplot(cm, aes(Predicted, True)) +
+  geom_tile(aes(fill = Accuracy), color = "white", linewidth = 0.8) +
   geom_text_contrast(
-    data = labels,
-    aes(x = lon, y = lat, label = code),
-    inherit.aes = FALSE,
-    background  = labels$fill_hex,
-    base_colour = "blue",
-    method = "auto", contrast = 4.5,
-    size = 2.5, fontface = "bold"
+    aes(label = label),
+    background = cm$fill_hex,
+    base_colour = "#004488",
+    method = "auto",
+    contrast = 4.5,
+    size = 5,
+    fontface = "bold"
   ) +
-  scale_fill_gradientn(colours = pal, name = "GDP per Capita (k USD)") +
-  coord_sf(expand = FALSE) +
-  labs(title = "Simulated Africa Map with Auto-Contrast Labels", x = NULL, y = NULL) +
-  theme_minimal(base_size = 11) +
-  theme(panel.grid = element_blank(), axis.text = element_blank())
+  scale_fill_gradientn(
+    colours = pal,
+    limits = c(0, 1),
+    name = "Accuracy"
+  ) +
+  coord_fixed() +
+  labs(
+    title = "Confusion Matrix for Iris LDA",
+    x = "Predicted Species",
+    y = "True Species"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
 ```
 
 <img src="man/figures/README-example2-1.png" alt="" width="100%" />
 
-Country labels automatically adjust their foreground color according to
-the underlying fill color, improving readability across the map.
+`geom_text_contrast()` automatically selects a readable foreground color
+for each label based on the tile background, improving readability while
+preserving the underlying color scale.
 
 ## Citation
 

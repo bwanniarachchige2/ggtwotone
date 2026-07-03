@@ -261,21 +261,21 @@ GeomCurveDual <- ggplot2::ggproto(
 #'
 #' @export
 geom_curve_dual <- function(
-    mapping = NULL,
-    data = NULL,
-    stat = "identity",
-    position = "identity",
-    ...,
-    curvature = NULL,
-    angle = NULL,
-    ncp = NULL,
-    base_color = NULL,
-    base_colour = NULL,
-    contrast = 4.5,
-    method_contrast = "WCAG",
-    na.rm = FALSE,
-    show.legend = NA,
-    inherit.aes = TRUE
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
+  curvature = NULL,
+  angle = NULL,
+  ncp = NULL,
+  base_color = NULL,
+  base_colour = NULL,
+  contrast = 4.5,
+  method_contrast = "WCAG",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
 ) {
   dots <- list(...)
 

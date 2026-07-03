@@ -72,7 +72,6 @@ geom_lm_dual <- function(data, mapping, method = "lm", formula = y ~ x,
                          linewidth = 1, show.legend = NA) {
 
   x_var <- rlang::as_name(mapping$x)
-  #y_var <- rlang::as_name(mapping$y)
 
   model <- stats::lm(formula, data = data)
   x_range <- range(data[[x_var]], na.rm = TRUE)

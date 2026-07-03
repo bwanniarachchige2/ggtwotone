@@ -110,7 +110,7 @@ safe_as_hex <- function(col) {
 #' (1) sampling HCL colors (global or biased),
 #' (2) filtering by WCAG/APCA contrast vs `background`
 #'     (and optionally vs `base_color`),
-#' (3) selecting a maximally separated subset by ΔE2000 and minimum hue
+#' (3) selecting a maximally separated subset by \eqn{\Delta E_{2000}} and minimum hue
 #'     spacing.
 #'
 #' Set `contrast_base = 0` to ignore base contrast
@@ -267,26 +267,26 @@ safe_as_hex <- function(col) {
 #'
 #' @export
 highlight_colors <- function(
-    n,
-    background = "#F0F0F0",
-    base_color = "#4a1919",
-    contrast_bg = 4.5,
-    contrast_base = 3.0,
-    min_deltaE = 35,
-    hue_targets = "auto",
-    anchor_band = 180,
-    hcl_L_range = c(25, 75),
-    hcl_C_range = c(40, 90),
-    min_hue_sep = 35,
-    n_candidates = 100000,
-    relax = TRUE,
-    quiet = TRUE,
-    repel_from = c("background", "base"),
-    repel_band = 50,
-    auto_bias = TRUE,
-    bias_width = 120,
-    bias_frac = 0.8,
-    contrast_method = c("option", "auto")
+  n,
+  background = "#F0F0F0",
+  base_color = "#4a1919",
+  contrast_bg = 4.5,
+  contrast_base = 3.0,
+  min_deltaE = 35,
+  hue_targets = "auto",
+  anchor_band = 180,
+  hcl_L_range = c(25, 75),
+  hcl_C_range = c(40, 90),
+  min_hue_sep = 35,
+  n_candidates = 100000,
+  relax = TRUE,
+  quiet = TRUE,
+  repel_from = c("background", "base"),
+  repel_band = 50,
+  auto_bias = TRUE,
+  bias_width = 120,
+  bias_frac = 0.8,
+  contrast_method = c("option", "auto")
 ) {
   contrast_method <- match.arg(contrast_method)
 
@@ -312,8 +312,8 @@ highlight_colors <- function(
 
     selected_backend <- if (
       is.finite(y_bg) &&
-      is.finite(y_base) &&
-      y_base < y_bg
+        is.finite(y_base) &&
+        y_base < y_bg
     ) {
       "APCA"
     } else {
@@ -401,9 +401,9 @@ highlight_colors <- function(
     if (hue_mode %in% c("auto", "spread")) {
       if (
         isTRUE(auto_bias) &&
-        is.finite(bg_h) &&
-        is.finite(base_h) &&
-        circ_dist(bg_h, base_h) > 100
+          is.finite(bg_h) &&
+          is.finite(base_h) &&
+          circ_dist(bg_h, base_h) > 100
       ) {
         centers <- c((bg_h + 180) %% 360, (base_h + 180) %% 360)
         half_w <- pmin(180, pmax(10, bias_width) / 2)
@@ -542,9 +542,9 @@ highlight_colors <- function(
 
   if (
     !quiet &&
-    (used_repel != repel_band ||
-     used_bg != contrast_bg ||
-     used_base != contrast_base)
+      (used_repel != repel_band ||
+         used_bg != contrast_bg ||
+         used_base != contrast_base)
   ) {
     message(
       sprintf(
@@ -625,7 +625,7 @@ highlight_colors <- function(
     )
   } else if (
     !quiet &&
-    (contrast_base_eff != contrast_base || contrast_bg_eff != contrast_bg)
+      (contrast_base_eff != contrast_base || contrast_bg_eff != contrast_bg)
   ) {
     message(
       sprintf(
@@ -670,7 +670,13 @@ highlight_colors <- function(
     hueok <- sapply(
       left,
       function(i) {
-        all(sapply(chosen, function(j) hue_dist_ok(cand_H[i], cand_H[j], cur_min_hsep)))
+        all(sapply(chosen, function(j) {
+          hue_dist_ok(
+            cand_H[i],
+            cand_H[j],
+            cur_min_hsep
+          )
+        }))
       }
     )
 

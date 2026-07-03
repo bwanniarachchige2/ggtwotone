@@ -87,17 +87,17 @@ test_that("two_colour_path_grob returns empty gTree for zero-length path", {
 
 test_that("two_colour_path_grob returns grob with
           two children for valid path", {
-  g <- two_colour_path_grob(
-    x = c(0.1, 0.5, 0.9),
-    y = c(0.2, 0.8, 0.3),
-    col1 = "black",
-    col2 = "white",
-    lwd = 2
-  )
+            g <- two_colour_path_grob(
+              x = c(0.1, 0.5, 0.9),
+              y = c(0.2, 0.8, 0.3),
+              col1 = "black",
+              col2 = "white",
+              lwd = 2
+            )
 
-  expect_s3_class(g, "gTree")
-  expect_equal(length(g$children), 2)
-})
+            expect_s3_class(g, "gTree")
+            expect_equal(length(g$children), 2)
+          })
 
 test_that("two_colour_path_grob works for two-point path", {
   g <- two_colour_path_grob(

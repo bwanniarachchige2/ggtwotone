@@ -123,43 +123,45 @@ test_that("geom_function_dual enforces ncp minimum in non-smooth mode", {
   expect_silent(ggplot2::ggplot_build(p))
 })
 
-test_that("geom_function_dual returns blank geom when function gives too few finite values", {
-  lyr <- geom_function_dual(
-    fun = function(x) rep(NA_real_, length(x)),
-    xlim = c(-2, 2),
-    smooth = TRUE
-  )
+test_that("geom_function_dual returns blank geom when function gives
+          too few finite values", {
+            lyr <- geom_function_dual(
+              fun = function(x) rep(NA_real_, length(x)),
+              xlim = c(-2, 2),
+              smooth = TRUE
+            )
 
-  expect_s3_class(lyr$geom, "GeomBlank")
-})
+            expect_s3_class(lyr$geom, "GeomBlank")
+          })
 
-test_that("GeomPathDualSide draw_panel returns nullGrob for fewer than 2 points", {
-  df <- data.frame(
-    x = 0.5,
-    y = 0.5,
-    group = 1,
-    colour1 = "white",
-    colour2 = "black",
-    linewidth = 1.2,
-    alpha = 1,
-    lineend = "round",
-    linejoin = "round",
-    linemitre = 10
-  )
+test_that("GeomPathDualSide draw_panel returns nullGrob for
+          fewer than 2 points", {
+            df <- data.frame(
+              x = 0.5,
+              y = 0.5,
+              group = 1,
+              colour1 = "white",
+              colour2 = "black",
+              linewidth = 1.2,
+              alpha = 1,
+              lineend = "round",
+              linejoin = "round",
+              linemitre = 10
+            )
 
-  panel_params <- ggplot2::ggplot_build(
-    ggplot2::ggplot(data.frame(x = 1, y = 1), ggplot2::aes(x, y)) +
-      ggplot2::geom_blank()
-  )$layout$panel_params[[1]]
+            panel_params <- ggplot2::ggplot_build(
+              ggplot2::ggplot(data.frame(x = 1, y = 1), ggplot2::aes(x, y)) +
+                ggplot2::geom_blank()
+            )$layout$panel_params[[1]]
 
-  g <- GeomPathDualSide$draw_panel(
-    data = df,
-    panel_params = panel_params,
-    coord = ggplot2::coord_cartesian()
-  )
+            g <- GeomPathDualSide$draw_panel(
+              data = df,
+              panel_params = panel_params,
+              coord = ggplot2::coord_cartesian()
+            )
 
-  expect_s3_class(g, "null")
-})
+            expect_s3_class(g, "null")
+          })
 
 test_that("GeomPathDualSide draw_panel returns grob for valid path", {
   df <- data.frame(

@@ -139,16 +139,16 @@ test_that("geom_segment_dual handles arrows and arrow.fill", {
 
 test_that("two_colour_segment_grob returns empty gTree for
           zero-length segment", {
-  g <- two_colour_segment_grob(
-    x0 = 0.5, y0 = 0.5, x1 = 0.5, y1 = 0.5,
-    col1 = "black", col2 = "white",
-    lwd = 2, lineend = "butt",
-    arrow = NULL, arrow.fill = NULL
-  )
+            g <- two_colour_segment_grob(
+              x0 = 0.5, y0 = 0.5, x1 = 0.5, y1 = 0.5,
+              col1 = "black", col2 = "white",
+              lwd = 2, lineend = "butt",
+              arrow = NULL, arrow.fill = NULL
+            )
 
-  expect_s3_class(g, "gTree")
-  expect_equal(length(g$children), 0)
-})
+            expect_s3_class(g, "gTree")
+            expect_equal(length(g$children), 0)
+          })
 
 test_that("two_colour_segment_grob returns two children for valid segment", {
   g <- two_colour_segment_grob(

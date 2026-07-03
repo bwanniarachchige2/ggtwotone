@@ -3,8 +3,18 @@ Package: ggtwotone
 Title: Dual-Tone and Contrast-Aware 'ggplot2' Geoms
 Version: 0.1.0
 Authors@R: c(
-    person("Beenu", "Sareena", email = "beenusareena810@gmail.com", role = c("aut", "cre")),
-    person("Heike", "Hofmann", email = "hhofmann4@unl.edu", role = "aut")
+    person(
+    "Beenu", "Sareena", 
+    email = "79365709@nebraska.edu", 
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0009-0002-7611-5499")
+    ),
+    person(
+    "Heike", "Hofmann", 
+    email = "hhofmann4@unl.edu", 
+    role = "aut",
+    comment = c(ORCID = "0000-0001-6216-5183")
+    )
     )
 Description: Provides dual-stroke and contrast-aware extensions to
     'ggplot2', designed for improved visibility and accessibility in
@@ -17,18 +27,18 @@ License: MIT + file LICENSE
 URL: https://github.com/bwanniarachchige2/ggtwotone
 BugReports: https://github.com/bwanniarachchige2/ggtwotone/issues
 Depends:
-    R (>= 4.1.0),
-    ggplot2 (>= 3.4.0)
+    R (>= 4.0.0),
+    ggplot2 (>= 4.0.3)
 Imports:
-    colorspace,
-    farver,
-    grDevices,
-    grid,
-    methods,
-    rlang,
-    stats,
-    tidyr,
-    utils
+    colorspace (>= 2.1.2),
+    farver (>= 2.1.2),
+    grDevices (>= 4.5.2),
+    grid (>= 4.5.2),
+    methods (>= 4.5.2),
+    rlang (>= 1.1.7),
+    stats (>= 4.5.2),
+    tidyr (>= 1.3.2),
+    utils (>= 4.5.2)
 Suggests:
     dplyr,
     knitr,

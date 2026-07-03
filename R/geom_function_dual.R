@@ -142,24 +142,24 @@ GeomPathDualSide <- ggplot2::ggproto(
 #'
 #' @export
 geom_function_dual <- function(fun,
-                                     xlim = c(-3, 3),
-                                     n = 701,
-                                     curvature = 0,
-                                     angle = 90,
-                                     ncp = 5,
-                                     colour1 = NULL,
-                                     colour2 = NULL,
-                                     base_color = NULL,
-                                     contrast = 4.5,
-                                     method_contrast = "WCAG",
-                                     linewidth = 1.2,
-                                     args = list(),
-                                     smooth = TRUE,
-                                     # aliases for convenience
-                                     color1 = NULL,
-                                     color2 = NULL,
-                                     alpha = 1,
-                                     ...) {
+                               xlim = c(-3, 3),
+                               n = 701,
+                               curvature = 0,
+                               angle = 90,
+                               ncp = 5,
+                               colour1 = NULL,
+                               colour2 = NULL,
+                               base_color = NULL,
+                               contrast = 4.5,
+                               method_contrast = "WCAG",
+                               linewidth = 1.2,
+                               args = list(),
+                               smooth = TRUE,
+                               # aliases for convenience
+                               color1 = NULL,
+                               color2 = NULL,
+                               alpha = 1,
+                               ...) {
   if (!is.null(color1) && is.null(colour1)) colour1 <- color1
   if (!is.null(color2) && is.null(colour2)) colour2 <- color2
 

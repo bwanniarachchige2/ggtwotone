@@ -1,5 +1,6 @@
 # Grob for drawing a line segment in two (contrasting) colours side by side
-two_colour_segment_grob <- function(x0, y0, x1, y1, col1, col2, lwd, lineend, arrow, arrow.fill) {
+two_colour_segment_grob <- function(x0, y0, x1, y1, col1, col2, lwd, lineend,
+                                    arrow, arrow.fill) {
   dx <- grid::convertWidth(grid::unit(x1 - x0, "npc"), "pt", valueOnly = TRUE)
   dy <- grid::convertHeight(grid::unit(y1 - y0, "npc"), "pt", valueOnly = TRUE)
 

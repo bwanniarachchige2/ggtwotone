@@ -96,7 +96,8 @@ lists which parameters it can accept.
 
 \item{method}{Contrast method to use: \code{"WCAG"}, \code{"APCA"}, or \code{"auto"}.}
 
-\item{contrast}{Threshold to ensure between text and background (defaults to 4.5).}
+\item{contrast}{Threshold to ensure between text and background
+(defaults to 4.5).}
 
 \item{base_colour}{Base text colour used to generate light/dark variants.}
 
@@ -116,10 +117,12 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{background}{A character vector of background fill colours (hex codes), used for contrast computation.}
+\item{background}{A character vector of background fill colours (hex codes),
+used for contrast computation.}
 }
 \description{
-Automatically adjusts text colour for readability on varying background colours using WCAG or APCA contrast.
+Automatically adjusts text colour for readability on varying background
+colours using WCAG or APCA contrast.
 }
 \examples{
 library(ggplot2)
@@ -147,7 +150,7 @@ library(dplyr)
 library(scales)
 
 set.seed(1)
-classes <-c("Cat", "Dog", "Rabit")
+classes <- c("Cat", "Dog", "Rabit")
 cm <- expand.grid(True = classes, Predicted = classes)
 cm$Count <- sample(5:200, size = nrow(cm), replace = TRUE)
 
@@ -163,7 +166,7 @@ cm$label <- sprintf("\%.1f\%\%", 100 * cm$Accuracy)
 
 ggplot(cm, aes(Predicted, True)) +
   geom_tile(aes(fill = Accuracy), color = "white", linewidth = 0.8) +
-    geom_text_contrast(
+  geom_text_contrast(
     aes(label = label),
     background = cm$fill_hex,
     base_colour = "#004488",

@@ -102,7 +102,7 @@ Creates n colors by:
 (1) sampling HCL colors (global or biased),
 (2) filtering by WCAG/APCA contrast vs \code{background}
 (and optionally vs \code{base_color}),
-(3) selecting a maximally separated subset by ΔE2000 and minimum hue
+(3) selecting a maximally separated subset by \eqn{\Delta E_{2000}} and minimum hue
 spacing.
 
 Set \code{contrast_base = 0} to ignore base contrast
